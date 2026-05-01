@@ -90,7 +90,6 @@ const ProductCard = ({ item }) => {
                   <li><strong>Area / Width / Height:</strong> {item?.dimensions ?? 'N/A'}</li>
                   <li><strong>Color / Needles:</strong> {item.colourNeedles}</li>
                 </ul>
-                {/* Rating removed as per request */}
               </div>
 
               {/* Addons */}
@@ -197,7 +196,7 @@ const ProductCard = ({ item }) => {
             borderRadius: 2,
             boxShadow: 24,
             p: 4,
-            position: 'relative', // important for positioning close button
+            position: 'relative',
           }}
         >
           {/* Close button */}
@@ -229,4 +228,3 @@ ProductCard.propTypes = {
 };
 
 export default ProductCard;
-
