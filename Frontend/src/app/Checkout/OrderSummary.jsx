@@ -29,36 +29,31 @@ const OrderSummary = ({
   autoApplyCoupon,
   manualCouponApplied,
   removeCoupon,
-  couponDetails
+  couponDetails,
+  coupons // ✅ Receive the list of all active coupons
 }) => {
   const { enqueueSnackbar } = useSnackbar();
   const [couponCode, setCouponCode] = useState("");
-  const [appliedCoupon, setAppliedCoupon] = useState("");
-  const [couponApplied, setCouponApplied] = useState(false);
   const [autoCouponMessage, setAutoCouponMessage] = useState("");
 
   const products = CheckoutData?.products || [];
   const totalAmount = CheckoutData?.totalAmount || 0;
   const isMobile = useMediaQuery('(max-width:640px)');
 
-  // ✅ Sync local state with store state for manual coupons
-  useEffect(() => {
-    if (manualCouponApplied && couponDetails?.coupon) {
-      setCouponApplied(true);
-      setAppliedCoupon(couponDetails.coupon.code);
-    } else if (!manualCouponApplied) {
-      setCouponApplied(false);
-      setAppliedCoupon("");
-    }
-  }, [manualCouponApplied, couponDetails]);
+  // ✅ Get the applied coupon code directly from store for consistent UI
+  const currentAppliedCode = couponDetails?.code || couponDetails?.coupon?.code;
+  const hasCoupon = !!currentAppliedCode;
 
   // ✅ Auto apply coupon once when component mounts and orderId is available
   // Only call if there's no existing coupon data from checkout status
+  // ✅ Auto apply coupon logic removed as per user request for manual selection only
+  /*
   useEffect(() => {
     if (orderId && !manualCouponApplied && !couponDetails && !autoCouponData) {
       autoApplyCoupon(orderId);
     }
   }, [orderId, manualCouponApplied, couponDetails, autoCouponData]);
+  */
 
   // ✅ Handle auto coupon data and messages
   useEffect(() => {
@@ -103,44 +98,49 @@ const OrderSummary = ({
         };
     })();
 
-  // ✅ Handle manual coupon apply
-  const handleApplyCoupon = async () => {
-    if (!couponCode.trim()) return;
+  const handleApplyCoupon = async (forcedCode = null) => {
+    const code = (forcedCode || couponCode).trim();
+    if (!code) return;
+
+    const isAlreadyApplied = currentAppliedCode && 
+      String(currentAppliedCode).toUpperCase() === String(code).toUpperCase();
+    
+    // ✅ If clicking the SAME coupon that's already applied, remove it (Toggle off)
+    if (forcedCode && isAlreadyApplied) {
+      await handleRemoveCoupon();
+      return;
+    }
 
     try {
-      const response = await applyCoupon({ orderId, couponCode });
+      // ✅ Always attempt to remove any existing coupon to be 100% sure backend is clear
+      await removeCoupon(orderId);
+      
+      // Small delay to allow DB to settle (reduced from 500ms)
+      await new Promise(resolve => setTimeout(resolve, 200));
 
-      // For manual applyCoupon, success response contains coupon and calculation
-      if (response?.coupon && response?.calculation) {
-        // Success - no snackbar needed, status will show in UI
-        setCouponApplied(true);
-        setAppliedCoupon(couponCode);
+      const response = await applyCoupon({ orderId, couponCode: code });
+
+      if (response?.coupon) {
         setCouponCode("");
       }
     } catch (error) {
-      // Manual applyCoupon throws error for validation failures
-      // Use snackbar for errors so it doesn't override existing warning messages
       const errorMessage = error?.response?.data?.message || applyCouponError || "Failed to apply coupon";
       enqueueSnackbar(errorMessage, { variant: "error" });
-      setCouponApplied(false);
-      setAppliedCoupon("");
     }
   };
 
-  const handleRemoveCoupon = () => {
-    setCouponApplied(false);
-    setAppliedCoupon("");
+  const handleRemoveCoupon = async () => {
     setCouponCode("");
-    removeCoupon();
+    await removeCoupon(orderId);
   };
 
   // ✅ Auto remove coupon after 30 minutes
   useEffect(() => {
-    if (couponApplied) {
+    if (hasCoupon) {
       const timer = setTimeout(() => handleRemoveCoupon(), 30 * 60 * 1000);
       return () => clearTimeout(timer);
     }
-  }, [couponApplied]);
+  }, [hasCoupon]);
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
@@ -208,7 +208,7 @@ const OrderSummary = ({
               />
               <Button
                 variant="contained"
-                onClick={handleApplyCoupon}
+                onClick={() => handleApplyCoupon()}
                 disabled={loading}
                 sx={{
                   backgroundColor: 'var(--primary)',
@@ -227,6 +227,87 @@ const OrderSummary = ({
                 {loading ? "..." : "Apply"}
               </Button>
             </Box>
+
+            {/* ✅ NEW: Available Coupons List */}
+            {coupons && coupons.length > 0 && (
+              <Box sx={{ mt: 3 }}>
+                <Typography variant="body2" sx={{ mb: 1.5, fontWeight: 800, color: '#311807', fontFamily: 'Poppins', opacity: 0.8 }}>
+                  Available Offers
+                </Typography>
+                <Box sx={{ display: 'flex', flexDirection: 'column', gap: 1.5 }}>
+                  {coupons.map((c) => {
+                    const isApplied = currentAppliedCode && 
+                      String(currentAppliedCode).toUpperCase() === String(c.code).toUpperCase();
+                    const isEligible = displayTotals.subtotal >= c.minAmount;
+
+                    return (
+                      <Box
+                        key={c._id}
+                        onClick={() => handleApplyCoupon(c.code)}
+                        sx={{
+                          p: 2,
+                          border: `1.5px solid ${isApplied ? 'var(--primary)' : '#e0e0e0'}`,
+                          borderRadius: '16px',
+                          bgcolor: isApplied ? 'rgba(204, 216, 143, 0.05)' : '#fff',
+                          cursor: 'pointer',
+                          transition: 'all 0.3s ease',
+                          display: 'flex',
+                          alignItems: 'center',
+                          gap: 2,
+                          '&:hover': {
+                            borderColor: 'var(--primary)',
+                            bgcolor: isApplied ? 'rgba(204, 216, 143, 0.08)' : '#fafafa'
+                          }
+                        }}
+                      >
+                        {/* Radio-style Circle */}
+                        <Box sx={{
+                          width: 20,
+                          height: 20,
+                          borderRadius: '50%',
+                          border: `2px solid ${isApplied ? 'var(--primary)' : '#ccc'}`,
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          flexShrink: 0
+                        }}>
+                          {isApplied && (
+                            <Box sx={{
+                              width: 10,
+                              height: 10,
+                              borderRadius: '50%',
+                              bgcolor: 'var(--primary)'
+                            }} />
+                          )}
+                        </Box>
+
+                        <Box sx={{ flexGrow: 1 }}>
+                          <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', mb: 0.5 }}>
+                            <Typography sx={{ fontWeight: 800, color: 'var(--secondary)', fontSize: '14px', letterSpacing: '0.5px' }}>
+                              {c.code}
+                            </Typography>
+                          </Box>
+                          <Typography sx={{ fontSize: '13px', fontWeight: 600, color: '#311807' }}>
+                            Get {c.discount}{c.type === 'P' ? '%' : '₹'} OFF
+                          </Typography>
+                          <Typography sx={{ fontSize: '11px', color: 'text.secondary' }}>
+                            Min order: ₹{c.minAmount}
+                          </Typography>
+                        </Box>
+
+                        {!isEligible && (
+                          <Box sx={{ textAlign: 'right' }}>
+                             <Typography sx={{ fontSize: '10px', color: '#ed6c02', fontWeight: 'bold' }}>
+                              Add ₹{c.minAmount - displayTotals.subtotal}
+                            </Typography>
+                          </Box>
+                        )}
+                      </Box>
+                    );
+                  })}
+                </Box>
+              </Box>
+            )}
 
             {/* Messages */}
             {(couponDetails?.coupon?.reason || checkoutMessage || autoCouponMessage) && (

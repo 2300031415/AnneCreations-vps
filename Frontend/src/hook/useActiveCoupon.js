@@ -1,32 +1,32 @@
 import { useState, useEffect } from 'react';
 
 const useActiveCoupon = () => {
-    const [coupon, setCoupon] = useState(null);
+    const [coupons, setCoupons] = useState([]);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchCoupon = async () => {
+        const fetchCoupons = async () => {
             try {
-                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/coupons/public/active`);
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/coupons/public/all-active`);
                 if (!response.ok) {
                     setLoading(false);
                     return;
                 }
                 const result = await response.json();
                 if (result.success && result.data) {
-                    setCoupon(result.data);
+                    setCoupons(result.data);
                 }
             } catch (error) {
-                console.error('Failed to fetch active coupon:', error);
+                console.error('Failed to fetch active coupons:', error);
             } finally {
                 setLoading(false);
             }
         };
 
-        fetchCoupon();
+        fetchCoupons();
     }, []);
 
-    return { coupon, loading };
+    return { coupons, loading };
 };
 
 export default useActiveCoupon;

@@ -60,7 +60,6 @@ export default function RootLayout({ children }) {
             <ScrollToTop />
             <LoginPopup />
             <CartDrawer />
-            <DiscountModal />
             <Footer />
           </AnalyticsProvider>
         </I18nProvider>

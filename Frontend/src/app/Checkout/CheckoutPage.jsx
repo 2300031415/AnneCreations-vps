@@ -68,7 +68,7 @@ const Page = () => {
 
   const { createPaymentInfo, verifyPayment } = usePaymentStore();
   const { clearCartState } = useCartStore();
-  const { coupon: activeCoupon } = useActiveCoupon();
+  const { coupons } = useActiveCoupon();
   const router = useRouter();
 
   const [openDialog, setOpenDialog] = useState(false);
@@ -290,32 +290,6 @@ const Page = () => {
     <>
       <BreadCrum crumbs={crumbs} />
 
-      {/* 🌟 Animated Offer Box */}
-      {activeCoupon && (
-        <div className="flex justify-center items-center mt-3 sm:mt-5 px-2">
-          <Box
-            sx={{
-              backgroundColor: "#96d358ff",
-              color: 'var(--secondary)',
-              borderRadius: '8px',
-              textAlign: 'center',
-              padding: { xs: '10px 12px', sm: '12px 16px' },
-              fontWeight: 600,
-              fontFamily: 'Poppins',
-              width: { xs: '100%', sm: '70%', md: '50%', lg: '30%' },
-              animation: `${glowPulse} 2s ease-in-out infinite`,
-              transition: 'transform 0.3s ease-in-out',
-            }}
-          >
-            <Typography
-              variant="body1"
-              sx={{ fontWeight: 600, fontSize: { xs: '12px', sm: '16px' } }}
-            >
-              🎉 Exclusive offer: Use code <span style={{ color: '#311807', textDecoration: 'underline' }}>{activeCoupon.code}</span> — Get {activeCoupon.discount}{activeCoupon.type === 'P' ? '%' : '₹'} OFF on orders above ₹{activeCoupon.minAmount}
-            </Typography>
-          </Box>
-        </div>
-      )}
 
       <Container sx={{ py: { xs: 3, sm: 5 } }}>
         <Typography
@@ -356,6 +330,7 @@ const Page = () => {
                 manualCouponApplied={manualCouponApplied}
                 removeCoupon={removeCoupon}
                 couponDetails={couponDetails}
+                coupons={coupons}
               />
 
               <Box sx={{ mt: 6 }}>

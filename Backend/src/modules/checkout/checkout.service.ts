@@ -105,6 +105,7 @@ export class CheckoutService {
     const discount = order.totals?.find((item) => item.code === 'couponDiscount')?.value ?? 0;
     const total = order.totals?.find((item) => item.code === 'total')?.value ?? order.orderTotal;
 
+
     return {
       orderId: String(order._id),
       orderNumber: order.orderNumber,

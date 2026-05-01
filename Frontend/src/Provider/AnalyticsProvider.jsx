@@ -29,12 +29,8 @@ export const AnalyticsProvider = ({ children }) => {
     }
   }, []); // Empty dependency array ensures this runs only once on mount
 
-  // Check if we are in server-side render or build
-  const isServer = typeof window === 'undefined';
-
-  // Show loader while initializing analytics ONLY on client
-  // During build (SSR), render children directly so Next.js can see the full page content
-  if (!isInitialized && !isServer) {
+  // Show loader while initializing analytics
+  if (!isInitialized) {
     return (
       <div style={{
         minHeight: '100vh',

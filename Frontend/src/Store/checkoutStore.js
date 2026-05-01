@@ -249,17 +249,27 @@ export const useCheckoutStore = create(
       // ✅ Reset loading state
       resetLoading: () => set({ loading: false }),
 
-      // ✅ Remove manual coupon
-      removeCoupon: () =>
-        set({
-          coupon: null,
-          manualCouponApplied: false,
-          applyCouponError: null,
-        }),
+      removeCoupon: async (orderId) => {
+        set({ loading: true });
+        try {
+          await axiosClient.post('/api/coupons/remove-coupon', { orderId });
+          set({
+            coupon: null,
+            couponDetails: null,
+            manualCouponApplied: false,
+            applyCouponError: null,
+            loading: false,
+          });
+          // Refresh status to get reset totals
+          await get().fetchCheckoutStatus(orderId);
+        } catch (err) {
+          console.error('Failed to remove coupon:', err);
+          set({ loading: false });
+        }
+      },
     }),
     {
       name: 'checkout-storage', // persisted key in localStorage
     },
   ),
 );
-

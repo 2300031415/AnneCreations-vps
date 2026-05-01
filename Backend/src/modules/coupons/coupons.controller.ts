@@ -30,6 +30,13 @@ export class CouponsController {
     return { success: true, data };
   }
 
+  @Get('public/all-active')
+  @ApiOperation({ summary: 'Get all active public coupons' })
+  async getAllActive() {
+    const data = await this.couponsService.findActiveCoupons();
+    return { success: true, data };
+  }
+
   @Get()
   @ApiOperation({ summary: 'List coupons' })
   async findAll(@Query() query: any) {
@@ -57,6 +64,14 @@ export class CouponsController {
   async applyCoupon(@Req() req: any, @Body() body: any) {
     const customerId = getCustomerId(req);
     return this.couponsService.applyCouponToOrder(body.code, body.orderId, customerId);
+  }
+
+  @Post('remove-coupon')
+  @ApiBearerAuth()
+  @ApiOperation({ summary: 'Remove coupon from current customer order' })
+  async removeCoupon(@Req() req: any, @Body() body: any) {
+    const customerId = getCustomerId(req);
+    return this.couponsService.removeCouponFromOrder(body.orderId, customerId);
   }
 
   @Get('auto-apply/:orderId')

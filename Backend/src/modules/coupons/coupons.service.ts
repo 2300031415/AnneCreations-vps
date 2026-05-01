@@ -41,6 +41,21 @@ export class CouponsService {
     return coupon;
   }
 
+  async findActiveCoupons() {
+    const now = new Date();
+    const coupons = await this.couponModel.find({
+      status: true,
+      $and: [
+        { $or: [{ dateStart: { $lte: now } }, { dateStart: null }] },
+        { $or: [{ dateEnd: { $gte: now } }, { dateEnd: null }] },
+      ],
+    } as any)
+      .sort({ createdAt: -1 })
+      .lean();
+
+    return coupons;
+  }
+
   async findPublicActiveCoupon() {
     const now = new Date();
     const coupon = await this.couponModel.findOne({
@@ -165,6 +180,41 @@ export class CouponsService {
 
   async applyCouponToOrder(code: string, orderId: string, customerId: string) {
     return this.validateAndApply(code, orderId, customerId);
+  }
+
+  async removeCouponFromOrder(orderId: string, customerId: string) {
+    const order = await this.orderModel.findById(orderId);
+    if (!order) {
+        throw new NotFoundException('Order not found');
+    }
+    if (order.customer.toString() !== customerId) {
+        throw new BadRequestException('Unauthorized');
+    }
+    
+    if (!order.coupon) {
+        return { success: true, message: 'No coupon to remove' };
+    }
+
+
+    // Find the original subtotal
+    const subtotalItem = order.totals.find((t: any) => t.code === 'subtotal');
+    const originalSubtotal = subtotalItem ? subtotalItem.value : order.orderTotal;
+
+    // Reset order
+    order.coupon = null as any;
+    order.orderTotal = originalSubtotal;
+    order.totals = [
+        { code: 'subtotal', value: originalSubtotal, sortOrder: 1 },
+        { code: 'total', value: originalSubtotal, sortOrder: 2 }
+    ] as any;
+
+    await order.save();
+
+    return {
+        success: true,
+        message: 'Coupon removed successfully',
+        finalTotal: originalSubtotal
+    };
   }
 
   async autoApplyCoupon(orderId: string, customerId: string) {
