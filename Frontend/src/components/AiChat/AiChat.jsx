@@ -52,6 +52,20 @@ const AiChat = () => {
             return;
         }
 
+        if (lowerMsg.includes('browse') || lowerMsg.includes('design')) {
+            setTimeout(() => {
+                setMessages(prev => [...prev, {
+                    id: Date.now() + 1,
+                    sender: 'bot',
+                    text: 'You can explore our full collection of embroidery designs on our Brochure Portal!',
+                    link: process.env.NEXT_PUBLIC_BROCHURE_URL || '/brochure',
+                    linkText: 'Open Brochure Portal'
+                }]);
+                setLoading(false);
+            }, 600);
+            return;
+        }
+
         try {
             const res = await axiosClient.post('/api/ai/chat', { message: userMsg.text });
             const botReply = res.data;
@@ -106,6 +120,14 @@ const AiChat = () => {
                     <Button
                         variant="outlined"
                         size="small"
+                        onClick={() => handleSend("Browse the designs")}
+                        sx={{ textTransform: 'none', justifyContent: 'flex-start', color: '#311807', borderColor: 'var(--primary)' }}
+                    >
+                        Browse the designs
+                    </Button>
+                    <Button
+                        variant="outlined"
+                        size="small"
                         onClick={() => handleSend("I cannot download my purchase")}
                         sx={{ textTransform: 'none', justifyContent: 'flex-start', color: '#311807', borderColor: 'var(--primary)' }}
                     >
@@ -148,12 +170,12 @@ const AiChat = () => {
             return (
                 <Button
                     variant="contained"
-                    color="success"
+                    color="primary"
                     href={href}
                     target="_blank"
-                    sx={{ mt: 1, textTransform: 'none' }}
+                    sx={{ mt: 1, textTransform: 'none', bgcolor: 'var(--primary)', '&:hover': { bgcolor: 'var(--secondary)' } }}
                 >
-                    Download Securely
+                    {msg.linkText || 'Download Securely'}
                 </Button>
             );
         }
