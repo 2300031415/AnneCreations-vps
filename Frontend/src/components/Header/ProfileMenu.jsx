@@ -82,10 +82,9 @@ const ProfileMenu = ({ anchorEl, handleClick, handleClose }) => {
         </IconButton>
       </Tooltip>
 
-      {/* 3. Cart Icon 🛒 */}
       <Tooltip title={t('profile.cart', 'Cart')}>
         <IconButton
-          onClick={() => router.push('/Cart')}
+          onClick={() => useCartStore.getState().setCartOpen(true)}
           aria-label={t('profile.cart', 'View Cart')}
           sx={{ color: 'var(--secondary)', p: { xs: 0.5, sm: 1 } }}
         >

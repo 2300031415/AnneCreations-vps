@@ -171,7 +171,10 @@ const MobileDrawer = ({ onClose }) => {
           </Box>
 
           <Box
-            onClick={() => handleNavigate('/Cart')}
+            onClick={() => {
+               useCartStore.getState().setCartOpen(true);
+               if (onClose) onClose();
+            }}
             sx={{
               flex: 1,
               display: 'flex', alignItems: 'center', justifyContent: 'center', gap: 0.5,
