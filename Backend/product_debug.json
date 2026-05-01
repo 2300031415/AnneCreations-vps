@@ -1,0 +1,178 @@
+[
+  {
+    "model": "BHPALLU149",
+    "p": {
+      "_id": "68de70adfe79d5de947e8fea",
+      "languageId": "68de6d72fe79d5de947c307f",
+      "productModel": "BHPALLU149",
+      "sku": "PALLU",
+      "description": "BHPALLU149",
+      "stitches": "-",
+      "dimensions": "-",
+      "colourNeedles": "2,4",
+      "sortOrder": 1,
+      "status": true,
+      "viewed": 1909,
+      "image": "catalog/product/BHPALLU149_image.jpg",
+      "seo": {
+        "metaTitle": "BHPALLU149",
+        "metaDescription": "",
+        "metaKeyword": ""
+      },
+      "categories": [
+        "68de6d74fe79d5de947c30a5",
+        "68de6d74fe79d5de947c30b9"
+      ],
+      "additionalImages": [],
+      "options": [
+        {
+          "option": "68de6d72fe79d5de947c3089",
+          "price": 30,
+          "uploadedFilePath": "catalog/files/BHPALLU149_Usha_JEF_450_11x8.zip",
+          "downloadCount": 0,
+          "fileSize": 0,
+          "mimeType": "application/octet-stream",
+          "_id": "68de70adfe79d5de947e8fe4"
+        },
+        {
+          "option": "68de6d72fe79d5de947c3087",
+          "price": 30,
+          "uploadedFilePath": "catalog/files/BHPALLU149_Usha-JEF-550-14x8.zip",
+          "downloadCount": 1,
+          "fileSize": 0,
+          "mimeType": "application/octet-stream",
+          "_id": "68de70adfe79d5de947e8fe5"
+        },
+        {
+          "option": "68de6d72fe79d5de947c3085",
+          "price": 30,
+          "uploadedFilePath": "catalog/files/BHPALLU149_Brother-DST-v3se-12x8.zip",
+          "downloadCount": 0,
+          "fileSize": 0,
+          "mimeType": "application/octet-stream",
+          "_id": "68de70adfe79d5de947e8fe6"
+        },
+        {
+          "option": "68de6d72fe79d5de947c3083",
+          "price": 30,
+          "uploadedFilePath": "catalog/files/BHPALLU149_Brother-Pes-bp3600-14x9.5.zip",
+          "downloadCount": 0,
+          "fileSize": 0,
+          "mimeType": "application/octet-stream",
+          "_id": "68de70adfe79d5de947e8fe7"
+        },
+        {
+          "option": "68de6d72fe79d5de947c3081",
+          "price": 30,
+          "uploadedFilePath": "catalog/files/BHPALLU149_Bernina-dst-14x8.zip",
+          "downloadCount": 1,
+          "fileSize": 0,
+          "mimeType": "application/octet-stream",
+          "_id": "68de70adfe79d5de947e8fe8"
+        },
+        {
+          "option": "68de6d72fe79d5de947c308d",
+          "price": 50,
+          "uploadedFilePath": "catalog/files/BHPALLU149_Full_Dst_Single_Head.zip",
+          "downloadCount": 32,
+          "fileSize": 0,
+          "mimeType": "application/octet-stream",
+          "_id": "68de70adfe79d5de947e8fe9"
+        }
+      ],
+      "createdAt": "2025-09-28T06:39:14.000Z",
+      "updatedAt": "2026-04-07T18:27:15.423Z",
+      "__v": 0,
+      "isBestSeller": false,
+      "weeklySalesCount": 0
+    }
+  },
+  {
+    "model": "BHPALLU147",
+    "p": {
+      "_id": "68de70acfe79d5de947e8b88",
+      "languageId": "68de6d72fe79d5de947c307f",
+      "productModel": "BHPALLU147",
+      "sku": "PALLU",
+      "description": "BHPALLU147",
+      "stitches": "-",
+      "dimensions": "-",
+      "colourNeedles": "1",
+      "sortOrder": 1,
+      "status": true,
+      "viewed": 1517,
+      "image": "catalog/product/BHPALLU147_image.jpg",
+      "seo": {
+        "metaTitle": "BHPALLU147",
+        "metaDescription": "",
+        "metaKeyword": ""
+      },
+      "categories": [
+        "68de6d74fe79d5de947c30a5",
+        "68de6d74fe79d5de947c30b9"
+      ],
+      "additionalImages": [],
+      "options": [
+        {
+          "option": "68de6d72fe79d5de947c3089",
+          "price": 20,
+          "uploadedFilePath": "catalog/files/BHPALLU147_Usha_JEF_450_11x8.zip",
+          "downloadCount": 17,
+          "fileSize": 0,
+          "mimeType": "application/octet-stream",
+          "_id": "68de70acfe79d5de947e8b82"
+        },
+        {
+          "option": "68de6d72fe79d5de947c3087",
+          "price": 20,
+          "uploadedFilePath": "catalog/files/BHPALLU147_Usha-JEF-550-14x8.zip",
+          "downloadCount": 9,
+          "fileSize": 0,
+          "mimeType": "application/octet-stream",
+          "_id": "68de70acfe79d5de947e8b83"
+        },
+        {
+          "option": "68de6d72fe79d5de947c3085",
+          "price": 20,
+          "uploadedFilePath": "catalog/files/BHPALLU147_Brother-DST-v3se-12x8.zip",
+          "downloadCount": 32,
+          "fileSize": 0,
+          "mimeType": "application/octet-stream",
+          "_id": "68de70acfe79d5de947e8b84"
+        },
+        {
+          "option": "68de6d72fe79d5de947c3083",
+          "price": 20,
+          "uploadedFilePath": "catalog/files/BHPALLU147_Brother-Pes-bp3600-14x9.5.zip",
+          "downloadCount": 11,
+          "fileSize": 0,
+          "mimeType": "application/octet-stream",
+          "_id": "68de70acfe79d5de947e8b85"
+        },
+        {
+          "option": "68de6d72fe79d5de947c3081",
+          "price": 20,
+          "uploadedFilePath": "catalog/files/BHPALLU147_Bernina-dst-14x8.zip",
+          "downloadCount": 3,
+          "fileSize": 0,
+          "mimeType": "application/octet-stream",
+          "_id": "68de70acfe79d5de947e8b86"
+        },
+        {
+          "option": "68de6d72fe79d5de947c308d",
+          "price": 40,
+          "uploadedFilePath": "catalog/files/BHPALLU147_Full_Dst_Single_Head.zip",
+          "downloadCount": 165,
+          "fileSize": 0,
+          "mimeType": "application/octet-stream",
+          "_id": "68de70acfe79d5de947e8b87"
+        }
+      ],
+      "createdAt": "2025-09-03T17:39:58.000Z",
+      "updatedAt": "2026-02-13T18:02:57.571Z",
+      "__v": 0,
+      "isBestSeller": false,
+      "weeklySalesCount": 0
+    }
+  }
+]

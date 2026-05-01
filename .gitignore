@@ -1,0 +1,38 @@
+node_modules/
+.env
+.env.local
+.env.production
+.env*.local
+*.log
+npm-debug.log*
+
+# Build outputs - NOT needed in git, will build on VPS
+.next/
+dist/
+build/
+out/
+
+# Large files
+deploy.tar.gz
+*.tar.gz
+*.zip
+*.gz
+
+# DB backups
+mongo_backup/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Completely ignore catalog
+Backend/catalog/

@@ -1,0 +1,105 @@
+{
+  "tabs": {
+    "all": "All",
+    "todays_deals": "Today's Deals",
+    "new_releases": "New Releases",
+    "on_sale": "On Sale",
+    "free_designs": "Free Designs"
+  },
+  "header": {
+    "language": "Language",
+    "company_name": "Anne Creations",
+    "company_subtitle": "Embroidery Designs"
+  },
+  "filters": {
+    "title": "Filters",
+    "price_range": "Price Range",
+    "categories": "Categories",
+    "sort_by": "Sort By"
+  },
+  "buttons": {
+    "add_to_cart": "Add to Cart",
+    "add_to_wishlist": "Add to Wishlist",
+    "quick_view": "Quick View",
+    "download_pdf": "Download Catalog"
+  },
+  "nav": {
+    "home": "Home",
+    "our_designs": "Categories",
+    "categories": "Categories",
+    "custom_design": "Custom Design",
+    "about_us": "About Us",
+    "contact_us": "Contact Us",
+    "help": "Help"
+  },
+  "home": {
+    "new_arrivals": "New Arrivals",
+    "shop_by_category": "Categories - Shop By Categories",
+    "recently_viewed": "Recently Viewed",
+    "designs": "designs",
+    "announcement": "✨ Premium Computer Embroidery Designs • 📞 Contact Us for Custom Orders • 🎨 New Designs Added Weekly"
+  },
+  "auth": {
+    "login": "Login",
+    "register": "Register",
+    "logout": "Logout"
+  },
+  "common": {
+    "loading": "Loading...",
+    "loading_banners": "Loading banners...",
+    "show_more": "Show More",
+    "more": "more"
+  },
+  "custom_design": {
+    "title": "Custom Design Services",
+    "subtitle": "Bring your creative ideas to life. Request a new custom design or track the status of your existing requests.",
+    "new_request": "New Design Request",
+    "new_request_desc": "Submit a new idea, upload reference images, and get a quote for your custom embroidery design.",
+    "view_requests": "View My Requests",
+    "view_requests_desc": "Check the status of your submitted requests, view quotes, and download completed designs."
+  },
+  "about": {
+    "title": "About Anne Creations",
+    "subtitle": "Delivering high-quality computer embroidery designs — simple, modern & affordable.",
+    "description": "At Anne Creations, we specialize exclusively in computer-generated embroidery designs. Our designs are crafted digitally with precise stitch accuracy, ensuring clean output on all embroidery machines.\n\nWe aim to make premium embroidery designs affordable for boutiques, home-based businesses, startups, creators and embroidery professionals.",
+    "mission_title": "Our Mission",
+    "mission_text": "To empower creators with easy-to-download, machine-ready embroidery designs while offering fair pricing and top-tier quality.",
+    "vision_title": "Our Vision",
+    "vision_text": "To be India’s most trusted platform for premium, affordable and modern computer embroidery designs.",
+    "footer_quote": "\"Designing Dreams, One Stitch at a Time.\""
+  },
+  "help": {
+    "title": "Frequently Asked Questions",
+    "coming_soon": "Coming Soon"
+  },
+  "contact": {
+    "title": "Leave your message",
+    "first_name": "First Name",
+    "last_name": "Last Name",
+    "email": "Email",
+    "mobile": "Mobile Number",
+    "message": "Message",
+    "submit": "Submit",
+    "sending": "Sending...",
+    "success": "✅ Message sent successfully!",
+    "failed": "❌ Failed to send message",
+    "whatsapp_contact": "Contact us on WhatsApp"
+  },
+  "profile": {
+    "title": "Account",
+    "my_profile": "My Profile",
+    "order_history": "Order History",
+    "downloads": "Downloads",
+    "wishlist": "Wishlist",
+    "cart": "Cart"
+  },
+  "footer": {
+    "description": "Anne Creations HB is a leading company in South India for embroidery design support for single-needle and multi-needle machines.",
+    "quick_links": "Quick Links",
+    "support": "Support",
+    "contact_us": "Contact Us",
+    "follow_us": "Follow Us",
+    "rights_reserved": "© 2025 Anne Creations. All rights reserved.",
+    "available_soon": "Available soon"
+  }
+}

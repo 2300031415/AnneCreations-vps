@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:wght@400;500;600;700&family=Unna&display=swap');
+@import "tailwindcss";
+
+/* Default font for all elements */
+* {
+  font-family: 'Inter', sans-serif;
+}
+
+:root {
+  --secondary: #311807;
+  --primary: #ccd88f;
+  --background: #FFFAF0;
+  --text: #000000;
+  --card-bg: #ffffff;
+  --border-color: #e5e7eb;
+  --muted-text: #4b5563;
+  --brand-accent: #996E19;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+h1,h2,h3,h4 {
+  font-family: 'Poppins', sans-serif !important;
+  color: var(--secondary);
+}
+
+.carousel .control-dots {
+  bottom: 10px;
+}
+
+.carousel .control-dots .dot {
+  background: #aaa;
+  box-shadow: none;
+  margin: 0 8px;
+  opacity: 0.6;
+  transition: all 0.3s ease;
+}
+
+.carousel .control-dots .dot.selected {
+  background: #311807;
+  opacity: 1;
+  padding: 0 20px !important;
+  border-radius: 8px;
+}
+
+.ornament-divider {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 0 20px;
+}
+
+.ornament-divider::before,
+.ornament-divider::after {
+  content: '';
+  flex: 1;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--brand-accent), transparent);
+}

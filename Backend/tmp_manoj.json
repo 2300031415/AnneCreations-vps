@@ -1,0 +1,19 @@
+{
+  "_id": "69b0edba3dcc919d3a32c012",
+  "username": "Manoj",
+  "password": ".C9MSDdCltyeJOUvuFoYHhmMOp.C9MSDdCltyeJOa2.05W",
+  "salt": ".C9MSDdCltyeJO",
+  "firstName": "Gollapally",
+  "lastName": "Manoj Kumar",
+  "email": "gmanojkumarkumar@gmail.com",
+  "ipAddress": "127.0.0.1",
+  "status": true,
+  "totalLogins": 1,
+  "role": "695bc15b3170ad1e2b104804",
+  "createdBy": "69907949c4115c8c4408b81b",
+  "createdAt": "2026-03-11T04:21:14.482Z",
+  "updatedAt": "2026-03-11T04:21:37.002Z",
+  "__v": 0,
+  "lastIp": "127.0.0.1",
+  "lastLogin": "2026-03-11T04:21:36.999Z"
+}

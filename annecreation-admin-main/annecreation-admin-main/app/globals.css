@@ -1,0 +1,63 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:wght@400;500;600;700&family=Unna&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 40 100% 97%;
+    /* #FFFAF0 approx */
+    --foreground: 24 80% 10%;
+    /* #311807 scale */
+    --card: 0 0% 100%;
+    --card-foreground: 24 80% 10%;
+    --popover: 0 0% 100%;
+    --popover-foreground: 24 80% 10%;
+    --primary: 69 49% 70%;
+    /* #ccd88f */
+    --primary-foreground: 24 80% 10%;
+    --secondary: 24 80% 10%;
+    /* #311807 */
+    --secondary-foreground: 0 0% 100%;
+    --muted: 24 10% 95%;
+    --muted-foreground: 24 10% 40%;
+    --accent: 69 49% 90%;
+    --accent-foreground: 24 80% 10%;
+    --destructive: 0 84.2% 60.2%;
+    --destructive-foreground: 210 40% 98%;
+    --border: 24 10% 90%;
+    --input: 24 10% 90%;
+    --ring: 69 49% 70%;
+    --radius: 1rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    font-family: 'Inter', sans-serif;
+  }
+
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    font-family: 'Poppins', sans-serif !important;
+    font-weight: 600;
+  }
+}
+
+.glass-card {
+  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+}
+
+.annie-gradient {
+  background: linear-gradient(135deg, #FFEFD5 0%, #FFFFFF 50%, #FFE4B5 100%);
+}

@@ -1,0 +1,40 @@
+{
+  "name": "brochure",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "eslint"
+  },
+  "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.9",
+    "axios": "^1.14.0",
+    "framer-motion": "^12.38.0",
+    "i18next": "^26.0.1",
+    "i18next-browser-languagedetector": "^8.2.1",
+    "i18next-http-backend": "^3.0.2",
+    "jwt-decode": "^4.0.0",
+    "keen-slider": "^6.8.6",
+    "lucide-react": "^1.7.0",
+    "next": "16.2.1",
+    "notistack": "^3.0.2",
+    "prop-types": "^15.8.1",
+    "react": "19.2.4",
+    "react-dom": "19.2.4",
+    "react-hook-form": "^7.72.0",
+    "react-i18next": "^17.0.1",
+    "react-icons": "^5.6.0",
+    "react-responsive-carousel": "^3.2.23",
+    "zustand": "^5.0.12"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "eslint": "^9",
+    "eslint-config-next": "16.2.1",
+    "tailwindcss": "^4"
+  }
+}
