@@ -36,7 +36,7 @@ cd Frontend && npm run build && cd ..
 
 # 3. BUILD ADMIN
 echo "📦 Building ADMIN PORTAL..."
-cd annecreation-admin-main/annecreation-admin-main && npm run build && cd ../..
+cd Admin && npm run build && cd ..
 
 # 4. BUILD BROCHURE
 echo "📦 Building BROCHURE..."
@@ -57,7 +57,7 @@ rsync -avz --exclude 'node_modules' --exclude '.git' --exclude '.env' \
 
 echo "🔄 Syncing ADMIN..."
 rsync -avz --exclude 'node_modules' --exclude '.git' --exclude '.env' \
-    ./annecreation-admin-main/annecreation-admin-main/.next ./annecreation-admin-main/annecreation-admin-main/public ./annecreation-admin-main/annecreation-admin-main/package.json \
+    ./Admin/.next ./Admin/public ./Admin/package.json \
     $REMOTE_USER@$REMOTE_HOST:$ADMIN_REMOTE
 
 echo "🔄 Syncing BROCHURE..."
