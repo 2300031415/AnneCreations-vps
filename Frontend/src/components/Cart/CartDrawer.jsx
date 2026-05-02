@@ -126,8 +126,8 @@ export default function CartDrawer() {
         >
             {/* Header */}
             <Box sx={{
-                bgcolor: 'var(--secondary)',
-                color: 'white',
+                bgcolor: 'var(--primary)',
+                color: 'var(--secondary)',
                 px: 3,
                 py: 2,
                 display: 'flex',
@@ -140,8 +140,8 @@ export default function CartDrawer() {
                         MY CART
                     </Typography>
                     <Box sx={{
-                        bgcolor: 'var(--primary)',
-                        color: 'var(--secondary)',
+                        bgcolor: 'var(--secondary)',
+                        color: 'white',
                         px: 1,
                         borderRadius: '50%',
                         fontSize: '0.8rem',
@@ -155,7 +155,7 @@ export default function CartDrawer() {
                         {cartCount}
                     </Box>
                 </Box>
-                <IconButton onClick={handleClose} sx={{ color: 'white', '&:hover': { bgcolor: 'rgba(255,255,255,0.1)' } }}>
+                <IconButton onClick={handleClose} sx={{ color: 'var(--secondary)', '&:hover': { bgcolor: 'rgba(49, 24, 7, 0.1)' } }}>
                     <IoClose size={28} />
                 </IconButton>
             </Box>
@@ -346,8 +346,9 @@ export default function CartDrawer() {
                         router.push('/Cart');
                     }}
                     sx={{
-                        bgcolor: 'var(--secondary)',
-                        '&:hover': { bgcolor: '#45210a' },
+                        bgcolor: 'var(--primary)',
+                        color: 'var(--secondary)',
+                        '&:hover': { bgcolor: '#b5c17d' },
                         textTransform: 'uppercase',
                         fontWeight: 700,
                         fontSize: '0.95rem',
