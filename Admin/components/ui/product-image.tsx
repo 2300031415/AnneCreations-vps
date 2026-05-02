@@ -38,8 +38,16 @@ export function ProductImage({
     // Clean up the source path
     const cleanPath = src.replace(/^\/+/, "");
 
+    // Get base URL, try IMAGE_BASE_URL first, then fallback to API_URL
+    let baseUrl = (process.env.NEXT_PUBLIC_IMAGE_BASE_URL || API_URL || "").replace(/\/+$/, "");
+    
+    // Strip trailing /api if present because images are served from root (e.g. /catalog)
+    if (baseUrl.endsWith("/api")) {
+      baseUrl = baseUrl.slice(0, -4);
+    }
+
     // Handle other images directly from the backend
-    return `${API_URL?.replace(/\/+$/, "")}/${cleanPath}`;
+    return baseUrl ? `${baseUrl}/${cleanPath}` : `/${cleanPath}`;
   };
 
   return (
