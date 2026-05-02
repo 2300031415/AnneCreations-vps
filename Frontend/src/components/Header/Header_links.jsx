@@ -107,7 +107,7 @@ const Header_links = () => {
             <Link href="/Help" className={linkClass('/Help')}>
               {t('nav.help')}
             </Link>
-            <a href={process.env.NEXT_PUBLIC_BROCHURE_URL || "/brochure"} className={linkClass('/brochure')}>
+            <a href="https://brochure.lowcostfreedom.com/" target="_blank" rel="noopener noreferrer" className={linkClass('/brochure')}>
               Design
             </a>
           </Box>

@@ -58,7 +58,7 @@ const AiChat = () => {
                     id: Date.now() + 1,
                     sender: 'bot',
                     text: 'You can explore our full collection of embroidery designs on our Brochure Portal!',
-                    link: process.env.NEXT_PUBLIC_BROCHURE_URL || '/brochure',
+                    link: 'https://brochure.lowcostfreedom.com/',
                     linkText: 'Open Brochure Portal'
                 }]);
                 setLoading(false);

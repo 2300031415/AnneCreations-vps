@@ -267,7 +267,7 @@ const MobileDrawer = ({ onClose }) => {
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
-            <ListItemButton component="a" href={process.env.NEXT_PUBLIC_BROCHURE_URL || "/brochure"} sx={{ py: 1 }}>
+            <ListItemButton component="a" href="https://brochure.lowcostfreedom.com/" target="_blank" rel="noopener noreferrer" sx={{ py: 1 }}>
               <ListItemIcon sx={{ minWidth: 36, color: 'var(--secondary)' }}><MdPalette size={20} /></ListItemIcon>
               <ListItemText primary="Design" primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }} />
             </ListItemButton>

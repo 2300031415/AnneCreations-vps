@@ -18,7 +18,7 @@ export class OrdersService {
     const limit = Math.min(100, Math.max(1, parseInt(query.limit) || 20));
     const skip = (page - 1) * limit;
 
-    const filters = this.buildOrderFilters(query);
+    const filters = await this.buildOrderFilters(query);
 
     const orders = await this.orderModel.find(filters)
       .populate('customer', 'firstName lastName email mobile')
@@ -59,8 +59,9 @@ export class OrdersService {
     const page = Math.max(1, parseInt(query.page) || 1);
     const limit = Math.min(100, Math.max(1, parseInt(query.limit) || 20));
     const skip = (page - 1) * limit;
+    const baseFilters = await this.buildOrderFilters(query);
     const filters: any = {
-      ...this.buildOrderFilters(query),
+      ...baseFilters,
       customer: new Types.ObjectId(customerId),
     };
 
@@ -128,7 +129,7 @@ export class OrdersService {
     };
   }
 
-  private buildOrderFilters(query: any) {
+  private async buildOrderFilters(query: any) {
     const filters: any = {};
     if (query.status) {
       filters.orderStatus = query.status;
@@ -138,9 +139,19 @@ export class OrdersService {
     }
     if (query.search) {
       const term = String(query.search).trim();
+      
+      const matchingProducts = await this.productModel.find({
+        $or: [
+          { productModel: { $regex: term, $options: 'i' } },
+          { sku: { $regex: term, $options: 'i' } }
+        ]
+      }, '_id').lean();
+      const productIds = matchingProducts.map(p => p._id);
+
       filters.$or = [
         { orderNumber: { $regex: term, $options: 'i' } },
         { razorpayOrderId: { $regex: term, $options: 'i' } },
+        { 'products.product': { $in: productIds } }
       ];
     }
     return filters;
