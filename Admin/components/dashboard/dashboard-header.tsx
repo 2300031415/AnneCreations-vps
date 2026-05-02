@@ -108,7 +108,7 @@ export function DashboardHeader() {
                       "h-12 gap-2 rounded-2xl text-[11px] font-bold uppercase tracking-[0.1em] transition-all px-5",
                       group.items?.some(item => pathname.startsWith(item.href))
                         ? "bg-[#311807] text-[#ccd88f] shadow-lg shadow-[#311807]/20"
-                        : "text-[#311807]/60 hover:text-[#311807] hover:bg-[#ccd88f]/10"
+                        : "text-[#311807]/90 hover:text-[#311807] hover:bg-[#ccd88f]/10"
                     )}
                   >
                     {group.title}
@@ -141,7 +141,7 @@ export function DashboardHeader() {
                   "h-12 rounded-2xl text-[11px] font-bold uppercase tracking-[0.1em] transition-all px-5",
                   isActive(group.href!)
                     ? "bg-[#311807] text-[#ccd88f] shadow-lg shadow-[#311807]/20"
-                    : "text-[#311807]/60 hover:text-[#311807] hover:bg-[#ccd88f]/10"
+                    : "text-[#311807]/90 hover:text-[#311807] hover:bg-[#ccd88f]/10"
                 )}
               >
                 <Link href={group.href!}>{group.title}</Link>

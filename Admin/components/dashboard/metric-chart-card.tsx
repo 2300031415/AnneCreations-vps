@@ -51,7 +51,7 @@ export function MetricChartCard({
         <Card className="glass-card overflow-hidden border-none ring-1 ring-[#311807]/5 transition-transform hover:scale-[1.01]">
             <CardHeader className="flex flex-row items-center justify-between pb-2 bg-transparent">
                 <div className="space-y-1">
-                    <CardTitle className="text-sm font-medium text-[#311807]/60 flex items-center gap-2 font-poppins uppercase tracking-wider">
+                    <CardTitle className="text-sm font-semibold text-[#311807]/90 flex items-center gap-2 font-poppins uppercase tracking-wider">
                         <Icon className="h-4 w-4" />
                         {title}
                     </CardTitle>
