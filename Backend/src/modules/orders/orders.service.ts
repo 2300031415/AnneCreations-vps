@@ -139,20 +139,43 @@ export class OrdersService {
     }
     if (query.search) {
       const term = String(query.search).trim();
-      
-      const matchingProducts = await this.productModel.find({
-        $or: [
-          { productModel: { $regex: term, $options: 'i' } },
-          { sku: { $regex: term, $options: 'i' } }
-        ]
-      }, '_id').lean();
-      const productIds = matchingProducts.map(p => p._id);
+      const regex = { $regex: term, $options: 'i' };
 
-      filters.$or = [
-        { orderNumber: { $regex: term, $options: 'i' } },
-        { razorpayOrderId: { $regex: term, $options: 'i' } },
-        { 'products.product': { $in: productIds } }
-      ];
+      if (query.searchField && query.searchField !== 'all') {
+        if (query.searchField === 'id') {
+          filters.orderNumber = regex;
+        } else if (query.searchField === 'razorpayOrderId') {
+          filters.razorpayOrderId = regex;
+        } else if (['customer', 'email', 'phone'].includes(query.searchField)) {
+          const customerQuery: any = {};
+          if (query.searchField === 'customer') {
+            customerQuery.$or = [{ firstName: regex }, { lastName: regex }];
+          } else if (query.searchField === 'email') {
+            customerQuery.email = regex;
+          } else if (query.searchField === 'phone') {
+            customerQuery.mobile = regex;
+          }
+          const matchingCustomers = await this.customerModel.find(customerQuery, '_id').lean();
+          filters.customer = { $in: matchingCustomers.map(c => c._id) };
+        }
+      } else {
+        const matchingProducts = await this.productModel.find({
+          $or: [{ productModel: regex }, { sku: regex }]
+        }, '_id').lean();
+        const productIds = matchingProducts.map(p => p._id);
+
+        const matchingCustomers = await this.customerModel.find({
+          $or: [{ firstName: regex }, { lastName: regex }, { email: regex }, { mobile: regex }]
+        }, '_id').lean();
+        const customerIds = matchingCustomers.map(c => c._id);
+
+        filters.$or = [
+          { orderNumber: regex },
+          { razorpayOrderId: regex },
+          { 'products.product': { $in: productIds } },
+          { customer: { $in: customerIds } }
+        ];
+      }
     }
     return filters;
   }

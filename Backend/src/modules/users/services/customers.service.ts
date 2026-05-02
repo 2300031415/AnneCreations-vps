@@ -20,6 +20,21 @@ export class CustomersService {
     const filters: any = {};
     if (query.mobile) filters.mobile = new RegExp(query.mobile, 'i');
     if (query.email) filters.email = new RegExp(query.email, 'i');
+    
+    if (query.search) {
+      const term = String(query.search).trim();
+      const regex = new RegExp(term, 'i');
+      if (query.searchField && query.searchField !== 'all') {
+        filters[query.searchField] = regex;
+      } else {
+        filters.$or = [
+          { firstName: regex },
+          { lastName: regex },
+          { email: regex },
+          { mobile: regex }
+        ];
+      }
+    }
 
     const customers = await this.customerModel.find(filters)
       .sort({ createdAt: -1 })
@@ -68,12 +83,15 @@ export class CustomersService {
       : null;
     if (existingEmail) throw new ConflictException('Email already registered');
 
-    // Hash password
-    if (customerData.password) {
-      const salt = await bcrypt.genSalt(10);
-      customerData.salt = salt;
-      customerData.password = await bcrypt.hash(customerData.password, salt);
+    // Auto-generate password if not provided (e.g. from Admin panel)
+    if (!customerData.password) {
+      customerData.password = Math.random().toString(36).slice(-10) + Math.random().toString(36).slice(-10);
     }
+    
+    // Hash password
+    const salt = await bcrypt.genSalt(10);
+    customerData.salt = salt;
+    customerData.password = await bcrypt.hash(customerData.password, salt);
 
     const customer = new this.customerModel({
       ...customerData,
