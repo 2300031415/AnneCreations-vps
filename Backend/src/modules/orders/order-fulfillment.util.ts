@@ -171,32 +171,20 @@ export async function sendOrderFulfillmentEmail(order: any) {
     `${order.paymentFirstName || order.customer?.firstName || ''} ${order.paymentLastName || order.customer?.lastName || ''}`.trim() ||
     'Customer';
 
-  const attachments = buildEmailAttachments(order);
+  // Build the receipt HTML to use as email body (NOT as an attachment)
+  const receipt = buildReceiptPayload(order);
+
+  // Only attach the ZIP download files — NOT the HTML receipt
+  const zipAttachments = buildEmailAttachments(order).filter(
+    (a: any) => !String(a.filename || '').endsWith('.html')
+  );
 
   await sendEmail({
     to: customerEmail,
     subject: `Anne Creations Receipt - Order ${order.orderNumber}`,
-    template: `
-      <!DOCTYPE html>
-      <html>
-        <body style="font-family: Arial, sans-serif; color: #1f2937;">
-          <h2>Order Confirmed</h2>
-          <p>Hello {{ customerName }},</p>
-          <p>Your payment for order <strong>{{ orderNumber }}</strong> was successful.</p>
-          <p><strong>Purchased Products:</strong><br />{{ productsList }}</p>
-          <p>The receipt and purchased ZIP files are attached with this email.</p>
-          <p>You can also download your files from your Anne Creations account.</p>
-          <p>Thank you,<br />{{ companyName }}</p>
-        </body>
-      </html>
-    `,
-    data: {
-      customerName,
-      orderNumber: order.orderNumber,
-      productsList: (order.products || []).map((p: any) => p.product?.productModel || 'Product').join(', '),
-      companyName: 'Anne Creations'
-    },
-    attachments,
+    template: receipt.html, // Use the receipt HTML directly as the email body
+    data: {},               // Already fully built, no template vars needed
+    attachments: zipAttachments,
   });
 
   return true;
