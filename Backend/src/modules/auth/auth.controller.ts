@@ -155,7 +155,9 @@ export class AuthController {
   @Post('forgot-password')
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Forgot password (send reset link)' })
-  async forgotPassword(@Body('identifier') identifier: string) {
+  async forgotPassword(@Body() body: any) {
+    const identifier = body.identifier || body.mobile || body.email;
+
     if (!identifier) {
       throw new BadRequestException('Mobile or Email is required');
     }
