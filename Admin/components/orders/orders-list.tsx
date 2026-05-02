@@ -172,12 +172,12 @@ export function OrdersList() {
     }
   }, [currentStatuses]);
 
-  // Initialize selectedStatuses once when all statuses are known
+  // Initialize selectedStatuses from URL only
   useEffect(() => {
-    if (allAvailableStatuses.length > 0 && selectedStatuses.length === 0) {
-      setSelectedStatuses(allAvailableStatuses);
+    if (statusFromUrl && selectedStatuses.length === 0) {
+      setSelectedStatuses([statusFromUrl]);
     }
-  }, [allAvailableStatuses, selectedStatuses.length]);
+  }, [statusFromUrl]);
 
   // Update query with full params after statuses are initialized
   // useEffect(() => {
@@ -241,7 +241,7 @@ export function OrdersList() {
   const clearFilters = () => {
     setSearchQuery("");
     setSearchField("all");
-    setSelectedStatuses(allAvailableStatuses);
+    setSelectedStatuses([]);
     setSortField("dateModified");
     setSortDirection("desc");
     setCurrentPage(1);
@@ -449,7 +449,7 @@ export function OrdersList() {
                 <Button variant="outline" className="gap-1 border-gray-300">
                   <FilterIcon className="h-4 w-4" />
                   Status
-                  {selectedStatuses.length < allAvailableStatuses.length && (
+                  {selectedStatuses.length > 0 && (
                     <Badge className="ml-1 bg-[#ccd88f] text-[#311807] hover:bg-[#ccd88f]/80">
                       {selectedStatuses.length}
                     </Badge>

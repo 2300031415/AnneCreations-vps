@@ -132,7 +132,11 @@ export class OrdersService {
   private async buildOrderFilters(query: any) {
     const filters: any = {};
     if (query.status) {
-      filters.orderStatus = query.status;
+      if (Array.isArray(query.status)) {
+        filters.orderStatus = { $in: query.status };
+      } else {
+        filters.orderStatus = query.status;
+      }
     }
     if (query.customer) {
       filters.customer = new Types.ObjectId(query.customer);
