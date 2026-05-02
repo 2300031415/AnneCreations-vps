@@ -43,6 +43,16 @@ const nextConfig = {
         hostname: 'lowcostfreedom.com',
         pathname: '/**',
       },
+      {
+        protocol: 'http',
+        hostname: 'api.lowcostfreedom.com',
+        pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'api.lowcostfreedom.com',
+        pathname: '/**',
+      },
     ],
   },
   async redirects() {
