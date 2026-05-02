@@ -254,7 +254,7 @@ export const useAuthStore = create(
 
       forgotPassword: async (mobile) => {
         try {
-          const { data } = await axiosClient.post('/api/customers/forgot-password', { mobile });
+          const { data } = await axiosClient.post('/api/customers/forgot-password', { identifier: mobile });
           return { success: true, data };
         } catch (error) {
           const errorMsg = error?.response?.data?.message || error.message;
