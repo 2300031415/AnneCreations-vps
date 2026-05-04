@@ -4,6 +4,7 @@ import { Box, Paper, Typography, TextField, Button, IconButton, Avatar, Circular
 import { MdChat, MdClose, MdSend, MdSmartToy, MdVerified, MdError } from 'react-icons/md';
 import axiosClient from '@/lib/axiosClient';
 import { API_URL } from '@/Store/authStore';
+import useCategory from '@/hook/useCategory';
 
 const AiChat = () => {
     const [isOpen, setIsOpen] = useState(false);
@@ -17,6 +18,8 @@ const AiChat = () => {
     ]);
     const [input, setInput] = useState('');
     const [loading, setLoading] = useState(false);
+    const [awaitingCategory, setAwaitingCategory] = useState(false);
+    const { categories } = useCategory();
     const messagesEndRef = useRef(null);
 
     const scrollToBottom = () => {
@@ -57,12 +60,45 @@ const AiChat = () => {
                 setMessages(prev => [...prev, {
                     id: Date.now() + 1,
                     sender: 'bot',
-                    text: 'You can explore our full collection of embroidery designs on our Brochure Portal!',
+                    text: 'You can explore our full collection on our Brochure Portal! Is there a specific category you are looking for? (e.g., Floral, Festive, Animal)',
                     link: 'https://brochure.lowcostfreedom.com/',
                     linkText: 'Open Brochure Portal'
                 }]);
+                setAwaitingCategory(true);
                 setLoading(false);
             }, 600);
+            return;
+        }
+
+        if (awaitingCategory) {
+            setLoading(true);
+            const matchedCategory = categories.find(c => 
+                c.name.toLowerCase().includes(lowerMsg) || 
+                lowerMsg.includes(c.name.toLowerCase())
+            );
+
+            setTimeout(() => {
+                if (matchedCategory) {
+                    const brochureUrl = `https://brochure.lowcostfreedom.com/category/${matchedCategory._id}?name=${encodeURIComponent(matchedCategory.name)}`;
+                    setMessages(prev => [...prev, {
+                        id: Date.now() + 1,
+                        sender: 'bot',
+                        text: `I found the ${matchedCategory.name} category for you in our Brochure! Click below to view all designs in this category.`,
+                        link: brochureUrl,
+                        linkText: `View ${matchedCategory.name} Designs`
+                    }]);
+                } else {
+                    setMessages(prev => [...prev, {
+                        id: Date.now() + 1,
+                        sender: 'bot',
+                        text: "I couldn't find a specific category for that, but you can see everything in our brochure portal.",
+                        link: 'https://brochure.lowcostfreedom.com/',
+                        linkText: 'Open Brochure Portal'
+                    }]);
+                }
+                setAwaitingCategory(false);
+                setLoading(false);
+            }, 800);
             return;
         }
 
@@ -73,14 +109,19 @@ const AiChat = () => {
             setMessages(prev => [...prev, {
                 id: Date.now() + 1,
                 sender: 'bot',
-                text: botReply.reply,
-                type: botReply.type,
+                text: botReply.reply || 'How else can I help you?',
+                type: botReply.type || 'initial_options',
                 data: botReply.data,
                 fields: botReply.fields
             }]);
 
         } catch (error) {
-            setMessages(prev => [...prev, { id: Date.now() + 1, sender: 'bot', text: 'Sorry, I am having trouble connecting right now.' }]);
+            setMessages(prev => [...prev, { 
+                id: Date.now() + 1, 
+                sender: 'bot', 
+                text: 'I am here to help. Choose an option below:',
+                type: 'initial_options'
+            }]);
         } finally {
             setLoading(false);
         }
@@ -166,13 +207,20 @@ const AiChat = () => {
         }
 
         if (msg.link) {
-            const href = msg.link.startsWith('http') ? msg.link : `${API_URL}${msg.link}`;
+            let href = msg.link;
+            const isAbsolute = href.startsWith('http');
+            const isInternal = href.startsWith('/');
+            
+            if (!isAbsolute && !isInternal) {
+                href = `${API_URL}${href}`;
+            }
+
             return (
                 <Button
                     variant="contained"
                     color="primary"
                     href={href}
-                    target="_blank"
+                    target={isAbsolute ? "_blank" : "_self"}
                     sx={{ mt: 1, textTransform: 'none', bgcolor: 'var(--primary)', '&:hover': { bgcolor: 'var(--secondary)' } }}
                 >
                     {msg.linkText || 'Download Securely'}
@@ -307,7 +355,25 @@ const AiChat = () => {
                         <div ref={messagesEndRef} />
                     </Box>
 
-                    {/* Input Area Removed as per user request */}
+                    {/* Input Area */}
+                    <Box sx={{ p: 2, bgcolor: 'white', borderTop: '1px solid #eee', display: 'flex', gap: 1 }}>
+                        <TextField
+                            fullWidth
+                            size="small"
+                            placeholder="Type your message..."
+                            value={input}
+                            onChange={(e) => setInput(e.target.value)}
+                            onKeyPress={(e) => e.key === 'Enter' && handleSend()}
+                            disabled={loading}
+                        />
+                        <IconButton 
+                            onClick={() => handleSend()} 
+                            disabled={loading || !input.trim()}
+                            sx={{ bgcolor: 'var(--primary)', color: 'white', '&:hover': { bgcolor: 'var(--secondary)' } }}
+                        >
+                            {loading ? <CircularProgress size={20} color="inherit" /> : <MdSend />}
+                        </IconButton>
+                    </Box>
                 </Paper>
             )}
         </>

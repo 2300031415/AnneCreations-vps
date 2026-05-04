@@ -34,13 +34,13 @@ import {
   MdFavorite,
   MdHistory,
 } from 'react-icons/md';
-import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube, FaWallet } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube, FaWallet, FaCalculator } from 'react-icons/fa';
 import { BsCart3 } from 'react-icons/bs';
 import { useWalletStore } from '@/Store/walletStore';
 import useWishlistStore from '@/Store/wishlistStore';
 import useCartStore from '@/Store/cartStore';
 
-const MobileDrawer = ({ onClose }) => {
+const MobileDrawer = ({ onClose, onOpenCalculator }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [categoriesOpen, setCategoriesOpen] = useState(false);
@@ -270,6 +270,12 @@ const MobileDrawer = ({ onClose }) => {
             <ListItemButton component="a" href="https://brochure.lowcostfreedom.com/" target="_blank" rel="noopener noreferrer" sx={{ py: 1 }}>
               <ListItemIcon sx={{ minWidth: 36, color: 'var(--secondary)' }}><MdPalette size={20} /></ListItemIcon>
               <ListItemText primary="Design" primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={onOpenCalculator} sx={{ py: 1 }}>
+              <ListItemIcon sx={{ minWidth: 36, color: 'var(--secondary)' }}></ListItemIcon>
+              <ListItemText primary="Calculator" primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>

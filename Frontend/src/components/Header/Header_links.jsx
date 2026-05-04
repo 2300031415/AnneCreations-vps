@@ -9,8 +9,9 @@ import {
 } from '@mui/material'
 import ProfileMenu from './ProfileMenu'
 import Logo from './Logo'
+import GlobalCalculatorModal from './GlobalCalculatorModal'
 import LanguageSelector from './LanguageSelector'
-import { FaBars, FaWallet } from 'react-icons/fa'
+import { FaBars, FaWallet, FaCalculator } from 'react-icons/fa'
 import { MdMenu } from 'react-icons/md'
 import MobileDrawer from './MobileDrawer'
 import { Tooltip, Badge } from '@mui/material'
@@ -27,6 +28,7 @@ const Header_links = () => {
   const { t } = useTranslation();
   const [profileAnchorEl, setProfileAnchorEl] = useState(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
+  const [calculatorOpen, setCalculatorOpen] = useState(false)
   const pathname = usePathname();
   const router = useRouter();
   const resetFilters = useFilterStore(state => state.resetFilters);
@@ -94,7 +96,7 @@ const Header_links = () => {
           </Link>
 
           {/* Nav Links - Desktop */}
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3, ml: 4 }}>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3, ml: 4, alignItems: 'center' }}>
             <Link href="/" onClick={handleHomeClick} className={linkClass('/')}>
               {t('nav.home')}
             </Link>
@@ -110,8 +112,17 @@ const Header_links = () => {
             <a href="https://brochure.lowcostfreedom.com/" target="_blank" rel="noopener noreferrer" className={linkClass('/brochure')}>
               Design
             </a>
+            <span 
+              onClick={() => setCalculatorOpen(true)} 
+              style={{ cursor: 'pointer', display: 'inline-block', verticalAlign: 'middle' }}
+              className={linkClass('/calculator')}
+            >
+              Calculator
+            </span>
           </Box>
         </Box>
+        
+        <GlobalCalculatorModal open={calculatorOpen} onClose={() => setCalculatorOpen(false)} />
 
         {/* Right: Language + Wallet + Profile */}
         <Box display="flex" alignItems="center" sx={{ flexShrink: 0 }}>
@@ -155,7 +166,13 @@ const Header_links = () => {
         onClose={() => setMobileMenuOpen(false)}
         PaperProps={{ sx: { width: '85%', maxWidth: 360 } }}
       >
-        <MobileDrawer onClose={() => setMobileMenuOpen(false)} />
+        <MobileDrawer 
+          onClose={() => setMobileMenuOpen(false)} 
+          onOpenCalculator={() => {
+            setMobileMenuOpen(false);
+            setCalculatorOpen(true);
+          }}
+        />
       </Drawer>
     </AppBar>
   )

@@ -60,6 +60,6 @@ export class CartController {
   @ApiOperation({ summary: 'Update cart item options' })
   async updateCartItem(@Req() req: any, @Param('productId') productId: string, @Body('options') options: string[] = []) {
     const customerId = getCustomerId(req);
-    return this.cartService.addToCart(customerId, productId, options);
+    return this.cartService.updateCartItem(customerId, productId, options);
   }
 }

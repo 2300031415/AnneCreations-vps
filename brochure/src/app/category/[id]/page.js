@@ -97,7 +97,7 @@ export default function CategoryProductsPage() {
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 mb-20 px-4">
           {currentItems.map((prod) => (
             <div key={prod._id} className="w-full">
-              <ArrivalCard item={prod} />
+              <ArrivalCard item={prod} categoryName={categoryName} />
             </div>
           ))}
         </div>

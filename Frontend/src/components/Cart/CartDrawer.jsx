@@ -250,7 +250,13 @@ export default function CartDrawer() {
                                     '&:hover': { transform: 'scale(1.01)' }
                                 }}>
                                     <Box sx={{ display: 'flex', width: '100%', gap: 2 }}>
-                                        <Box sx={{ width: 70, height: 70, borderRadius: 2, overflow: 'hidden', flexShrink: 0, border: '1px solid #eee' }}>
+                                        <Box 
+                                            onClick={() => {
+                                                handleClose();
+                                                router.push(`/product/${item.product?.productModel}`);
+                                            }}
+                                            sx={{ width: 70, height: 70, borderRadius: 2, overflow: 'hidden', flexShrink: 0, border: '1px solid #eee', cursor: 'pointer' }}
+                                        >
                                             <img
                                                 src={buildProductImageUrl(productData?.image)}
                                                 alt={productData?.productModel || 'Product'}
@@ -260,7 +266,20 @@ export default function CartDrawer() {
 
                                         <Box sx={{ flexGrow: 1 }}>
                                             <Box sx={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-                                                <Typography variant="body1" sx={{ fontWeight: 700, color: 'var(--secondary)', fontSize: '0.95rem' }}>
+                                                <Typography 
+                                                    onClick={() => {
+                                                        handleClose();
+                                                        router.push(`/product/${item.product?.productModel}`);
+                                                    }}
+                                                    variant="body1" 
+                                                    sx={{ 
+                                                        fontWeight: 700, 
+                                                        color: 'var(--secondary)', 
+                                                        fontSize: '0.95rem',
+                                                        cursor: 'pointer',
+                                                        '&:hover': { color: 'var(--brand-accent)' }
+                                                    }}
+                                                >
                                                     {item.product?.productModel}
                                                 </Typography>
                                                 <IconButton
@@ -375,4 +394,3 @@ export default function CartDrawer() {
         </Drawer>
     );
 }
-

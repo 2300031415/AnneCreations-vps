@@ -151,6 +151,15 @@ const HomePageContent = () => {
     }
   }, [tabParam]);
 
+  // Sync category from URL param
+  useEffect(() => {
+    const catId = searchParams.get('category');
+    if (catId) {
+      setSelectedCategories([catId]);
+      setActiveTab('all');
+    }
+  }, [searchParams, setSelectedCategories, setActiveTab]);
+
 
 
   const categoryTabs = useMemo(() => {

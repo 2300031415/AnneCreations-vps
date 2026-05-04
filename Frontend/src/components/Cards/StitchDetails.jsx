@@ -108,8 +108,8 @@ const StitchDetails = ({ backStitches = 0, handStitches = 0, stitches = 0 }) => 
             <Slider
                 value={speed}
                 onChange={handleSliderChange}
-                min={200}
-                max={1000}
+                min={350}
+                max={1200}
                 step={50}
                 valueLabelDisplay="auto"
                 sx={{

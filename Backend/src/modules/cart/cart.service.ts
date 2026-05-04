@@ -114,6 +114,39 @@ export class CartService {
     return await cart.save();
   }
 
+  async updateCartItem(customerId: string, productId: string, options: string[]) {
+    if (!Types.ObjectId.isValid(productId)) {
+      throw new BadRequestException('Invalid product ID');
+    }
+
+    const product = await this.productModel.findById(productId).populate('options.option', 'name').populate('categories');
+    if (!product) throw new NotFoundException('Product not found');
+
+    let cart = await this.cartModel.findOne({ customerId: new Types.ObjectId(customerId) } as any);
+    if (!cart) throw new NotFoundException('Cart not found');
+
+    const existingItemIndex = cart.items.findIndex(item => item.product.toString() === productId);
+    if (existingItemIndex === -1) throw new NotFoundException('Item not found in cart');
+
+    // Replace options instead of merging
+    const selectedOptionsIds = options.map(String);
+    cart.items[existingItemIndex].options = (product.options as any[]).filter(o => 
+      selectedOptionsIds.includes(o._id.toString())
+    );
+
+    if (cart.items[existingItemIndex].options.length === 0) {
+      cart.items.splice(existingItemIndex, 1);
+    } else {
+      let itemSubtotal = 0;
+      for (const opt of cart.items[existingItemIndex].options) {
+          itemSubtotal += await this.salesService.getDiscountedPrice(product, opt);
+      }
+      cart.items[existingItemIndex].subtotal = itemSubtotal;
+    }
+
+    return await cart.save();
+  }
+
   async removeFromCart(customerId: string, productId: string) {
     const cart = await this.cartModel.findOne({ customerId: new Types.ObjectId(customerId) } as any);
     if (!cart) throw new NotFoundException('Cart not found');
