@@ -41,9 +41,11 @@ const DesktopNav = () => {
     {
       id: 3,
       name: t('nav.categories', 'Categories'),
-      link: '/Category',
+      link: '#',
       // ensure we have an array and sort alphabetically
-      subcategories: (categories || []).map((item) => item.name).filter(Boolean).sort((a, b) => a.localeCompare(b)),
+      subcategories: (categories || [])
+        .filter(cat => cat.name && cat.name !== 'All')
+        .sort((a, b) => a.name.localeCompare(b.name)),
     },
     { id: 2, name: t('nav.about_us', 'About Us'), link: '/About' },
     { id: 4, name: t('nav.contact_us', 'Contact Us'), link: '/Contactus' },
@@ -137,10 +139,11 @@ const DesktopNav = () => {
                                   }}
                                 >
                                   <Link
-                                    href={`/design?category=${encodeURIComponent(sub)}`}
+                                    href={`/category/${sub._id}?name=${encodeURIComponent(sub.name)}`}
                                     className="text-sm text-[var(--secondary)] hover:underline hover:text-[var(--primary)]"
+                                    onClick={handleMouseLeave}
                                   >
-                                    {sub}
+                                    {sub.name}
                                   </Link>
                                 </TableCell>
                               ))}

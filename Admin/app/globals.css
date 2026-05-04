@@ -55,7 +55,7 @@
 }
 
 .glass-card {
-  @apply bg-white/70 backdrop-blur-md border border-white/20 shadow-xl;
+  @apply bg-white border border-white/20 shadow-xl;
 }
 
 .annie-gradient {

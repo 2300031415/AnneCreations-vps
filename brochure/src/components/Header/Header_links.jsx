@@ -13,6 +13,7 @@ import LanguageSelector from './LanguageSelector'
 import { FaBars, FaWallet } from 'react-icons/fa'
 import { MdMenu } from 'react-icons/md'
 import MobileDrawer from './MobileDrawer'
+import DesktopNav from './DesktopNav'
 import { Tooltip, Badge } from '@mui/material'
 import { useWalletStore } from '@/Store/walletStore';
 import { useAuthStore } from '@/Store/authStore';
@@ -94,19 +95,8 @@ const Header_links = () => {
           </Link>
 
           {/* Nav Links - Desktop */}
-          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 3, ml: 4 }}>
-            <Link href="/" onClick={handleHomeClick} className={linkClass('/')}>
-              {t('nav.home')}
-            </Link>
-            <Link href="/About" className={linkClass('/About')}>
-              {t('nav.about_us')}
-            </Link>
-            <Link href="/Contactus" className={linkClass('/Contactus')}>
-              {t('nav.contact_us')}
-            </Link>
-            <Link href="/Help" className={linkClass('/Help')}>
-              {t('nav.help')}
-            </Link>
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, gap: 1, ml: 4, alignItems: 'center' }}>
+            <DesktopNav />
           </Box>
         </Box>
 
