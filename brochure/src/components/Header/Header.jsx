@@ -7,11 +7,10 @@ import DesktopNav from './DesktopNav';
 
 const Header = () => {
   return (
-    <Box 
-      component="header" 
-      sx={{ 
+    <header
+      style={{ 
         width: '100%', 
-        bgcolor: 'white', 
+        backgroundColor: 'white', 
         borderBottom: '1px solid #f0ebe3',
         position: 'sticky',
         top: 0,
@@ -61,7 +60,7 @@ const Header = () => {
           <Box sx={{ flexGrow: 1 }} />
         </Box>
       </Container>
-    </Box>
+    </header>
   );
 };
 

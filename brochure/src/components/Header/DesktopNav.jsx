@@ -47,9 +47,6 @@ const DesktopNav = () => {
         .filter(cat => cat.name && cat.name !== 'All')
         .sort((a, b) => a.name.localeCompare(b.name)),
     },
-    { id: 2, name: t('nav.about_us', 'About Us'), link: '/About' },
-    { id: 4, name: t('nav.contact_us', 'Contact Us'), link: '/Contactus' },
-    { id: 5, name: t('nav.help', 'Help'), link: '/Help' },
   ];
 
   return (
@@ -116,8 +113,7 @@ const DesktopNav = () => {
                     <Table sx={{ border: 'none' }} size="small">
                       <TableBody>
                         {(() => {
-                          const raw = Array.isArray(item.subcategories) ? item.subcategories : [];
-                          const uniqueSorted = [...new Set(raw.filter(Boolean))].sort((a, b) => a.localeCompare(b));
+                          const uniqueSorted = Array.isArray(item.subcategories) ? item.subcategories : [];
 
                           const rows = uniqueSorted.reduce((rowsAcc, sub, i) => {
                             const rowIndex = Math.floor(i / 5);
