@@ -93,13 +93,13 @@ export function MetricChartCard({
                                         return d.toLocaleDateString('en-US', { month: 'short' });
                                     }}
                                     minTickGap={30}
-                                    tick={{ fill: "#311807", opacity: 0.4 }}
+                                    tick={{ fill: "#311807", opacity: 0.8 }}
                                 />
                                 <YAxis
                                     tickLine={false}
                                     axisLine={false}
                                     fontSize={10}
-                                    tick={{ fill: "#311807", opacity: 0.4 }}
+                                    tick={{ fill: "#311807", opacity: 0.8 }}
                                 />
                                 <Tooltip
                                     cursor={{ fill: "rgba(204, 216, 143, 0.2)" }}

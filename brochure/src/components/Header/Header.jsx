@@ -1,11 +1,15 @@
 'use client';
 import React from 'react';
-import { Box, Container, Typography } from '@mui/material';
+import { Box, Container, Typography, IconButton, Drawer } from '@mui/material';
 import Logo from './Logo';
 import Link from 'next/link';
+import { MdMenu } from 'react-icons/md';
 import DesktopNav from './DesktopNav';
+import MobileDrawer from './MobileDrawer';
 
 const Header = () => {
+  const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
+
   return (
     <header
       style={{ 
@@ -19,17 +23,25 @@ const Header = () => {
       }}
     >
       <Container maxWidth="xl">
-        <Box sx={{ display: 'flex', alignItems: 'center', height: 80, gap: 4 }}>
+        <Box sx={{ display: 'flex', alignItems: 'center', height: { xs: 70, md: 80 }, gap: { xs: 1, md: 4 } }}>
+          {/* Mobile Menu Toggle */}
+          <IconButton
+            sx={{ display: { xs: 'flex', md: 'none' }, color: '#311807' }}
+            onClick={() => setIsDrawerOpen(true)}
+          >
+            <MdMenu size={28} />
+          </IconButton>
+
           {/* Logo & Branding */}
-          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '12px' }}>
-            <Box sx={{ width: { xs: 35, md: 45 }, height: { xs: 35, md: 45 } }}>
+          <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center', gap: '8px' }}>
+            <Box sx={{ width: { xs: 30, md: 45 }, height: { xs: 30, md: 45 } }}>
                 <Logo />
             </Box>
             <Box sx={{ display: 'flex', flexDirection: 'column' }}>
                 <Typography 
                   sx={{ 
                     fontFamily: "'Playfair Display', serif", 
-                    fontSize: { xs: '1.1rem', md: '1.6rem' }, 
+                    fontSize: { xs: '1rem', md: '1.6rem' }, 
                     fontWeight: 800,
                     color: '#311807',
                     lineHeight: 1,
@@ -39,7 +51,7 @@ const Header = () => {
                 </Typography>
                 <Typography 
                   sx={{ 
-                    fontSize: '0.6rem', 
+                    fontSize: { xs: '0.5rem', md: '0.6rem' }, 
                     color: '#8B4513', 
                     fontWeight: 800, 
                     letterSpacing: '1px', 
@@ -60,6 +72,18 @@ const Header = () => {
           <Box sx={{ flexGrow: 1 }} />
         </Box>
       </Container>
+
+      {/* Mobile Drawer */}
+      <Drawer
+        anchor="left"
+        open={isDrawerOpen}
+        onClose={() => setIsDrawerOpen(false)}
+        PaperProps={{
+          sx: { width: '280px', bgcolor: 'white' }
+        }}
+      >
+        <MobileDrawer onClose={() => setIsDrawerOpen(false)} />
+      </Drawer>
     </header>
   );
 };

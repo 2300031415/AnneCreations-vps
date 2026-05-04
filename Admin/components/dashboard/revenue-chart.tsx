@@ -59,13 +59,13 @@ export function RevenueChart({ className, ...props }: RevenueChartProps) {
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={chartData} margin={{ top: 5, right: 5, left: 5, bottom: 5 }}>
               <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#311807" strokeOpacity={0.05} />
-              <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={12} tick={{ fill: "#311807", opacity: 0.4 }} />
+              <XAxis dataKey="name" tickLine={false} axisLine={false} fontSize={12} tick={{ fill: "#311807", opacity: 0.8 }} />
               <YAxis
                 tickLine={false}
                 axisLine={false}
                 fontSize={12}
                 tickFormatter={(value) => `₹${value}`}
-                tick={{ fill: "#311807", opacity: 0.4 }}
+                tick={{ fill: "#311807", opacity: 0.8 }}
               />
               <Tooltip
                 cursor={{ fill: "rgba(204, 216, 143, 0.15)" }}
