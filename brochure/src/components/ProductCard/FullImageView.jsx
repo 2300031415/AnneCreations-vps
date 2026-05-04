@@ -21,8 +21,6 @@ export default function FullImageViewer({ open, onClose, src, alt }) {
   const containerRef = useRef(null);
   const imgRef = useRef(null);
 
-  const PADDING = 40;
-
   const clamp = (value, min, max) => Math.min(Math.max(value, min), max);
 
   const clampPosition = (pos, s = scale) => {
@@ -35,20 +33,18 @@ export default function FullImageViewer({ open, onClose, src, alt }) {
     const scaledW = imgSize.width * s;
     const scaledH = imgSize.height * s;
 
-    const minX = Math.min(containerW - scaledW - PADDING, PADDING);
-    const maxX = PADDING;
-
-    const minY = Math.min(containerH - scaledH - PADDING, PADDING);
-    const maxY = PADDING;
+    // When transform-origin is center, the visible overflow on each side is (scaledSize - containerSize) / 2
+    const maxPosX = Math.max(0, (scaledW - containerW) / 2);
+    const maxPosY = Math.max(0, (scaledH - containerH) / 2);
 
     return {
-      x: clamp(pos.x, minX, maxX),
-      y: clamp(pos.y, minY, maxY),
+      x: clamp(pos.x, -maxPosX, maxPosX),
+      y: clamp(pos.y, -maxPosY, maxPosY),
     };
   };
 
   const handleMouseDown = (e) => {
-    if (scale === 1) return;
+    if (scale <= 1) return;
     e.preventDefault();
     setDragging(true);
     setStart({ x: e.clientX, y: e.clientY });
@@ -69,10 +65,11 @@ export default function FullImageViewer({ open, onClose, src, alt }) {
   // Mouse wheel zoom
   const handleWheel = (e) => {
     e.preventDefault();
-    const delta = e.deltaY > 0 ? -0.1 : 0.1;
+    const delta = e.deltaY > 0 ? -0.2 : 0.2;
     const newScale = clamp(scale + delta, 1, 5);
-    if (newScale === 1) {
-      setPosition({ x: PADDING, y: PADDING });
+    
+    if (newScale <= 1) {
+      setPosition({ x: 0, y: 0 });
     } else {
       setPosition((pos) => clampPosition(pos, newScale));
     }
@@ -108,18 +105,19 @@ export default function FullImageViewer({ open, onClose, src, alt }) {
 
   const handleClose = () => {
     setScale(1);
-    setPosition({ x: PADDING, y: PADDING });
+    setPosition({ x: 0, y: 0 });
     onClose();
   };
 
   const updateImgSize = () => {
     const rect = imgRef.current?.getBoundingClientRect();
     if (rect) {
+      // Calculate original displayed size (contain)
       setImgSize({
         width: rect.width / scale,
         height: rect.height / scale,
       });
-      setPosition({ x: PADDING, y: PADDING });
+      setPosition({ x: 0, y: 0 });
     }
   };
 
@@ -141,6 +139,9 @@ export default function FullImageViewer({ open, onClose, src, alt }) {
           height: "100%",
           backgroundColor: "rgba(0,0,0,0.95)",
           overflow: "hidden",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
           cursor: scale > 1 ? (dragging ? "grabbing" : "grab") : "default",
         }}
         onMouseDown={handleMouseDown}
@@ -153,7 +154,7 @@ export default function FullImageViewer({ open, onClose, src, alt }) {
           onLoad={updateImgSize}
           style={{
             transform: `translate(${position.x}px, ${position.y}px) scale(${scale})`,
-            transformOrigin: "top left",
+            transformOrigin: "center",
             objectFit: "contain",
             userSelect: "none",
             pointerEvents: "none",
