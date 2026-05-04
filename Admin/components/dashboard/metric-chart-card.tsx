@@ -146,7 +146,7 @@ export function MetricChartCard({
                 </div>
                 {description && (
                     <div className="mt-4 flex items-center gap-2 border-t border-[#311807]/5 pt-3">
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-[#311807]/40 leading-none">{description}</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-[#311807]/70 leading-none">{description}</p>
                         <div className="h-1 flex-1 bg-[#311807]/5 rounded-full overflow-hidden">
                             <div className="h-full bg-[#ccd88f] w-1/3 rounded-full opacity-50" />
                         </div>

@@ -44,17 +44,6 @@ const OrderSummary = ({
   const currentAppliedCode = couponDetails?.code || couponDetails?.coupon?.code;
   const hasCoupon = !!currentAppliedCode;
 
-  // ✅ Auto apply coupon once when component mounts and orderId is available
-  // Only call if there's no existing coupon data from checkout status
-  // ✅ Auto apply coupon logic removed as per user request for manual selection only
-  /*
-  useEffect(() => {
-    if (orderId && !manualCouponApplied && !couponDetails && !autoCouponData) {
-      autoApplyCoupon(orderId);
-    }
-  }, [orderId, manualCouponApplied, couponDetails, autoCouponData]);
-  */
-
   // ✅ Handle auto coupon data and messages
   useEffect(() => {
     if (autoCouponData) {
@@ -97,6 +86,18 @@ const OrderSummary = ({
           total: totalAmount - autoDiscount,
         };
     })();
+
+  // ✅ Auto apply coupon once when component mounts and orderId is available
+  useEffect(() => {
+    // Only attempt if order is ready, no manual coupon set, and we have the coupons list
+    if (orderId && !hasCoupon && coupons && coupons.length > 0 && !manualCouponApplied) {
+      // Find first eligible coupon based on subtotal
+      const eligibleCoupon = coupons.find(c => displayTotals.subtotal >= c.minAmount);
+      if (eligibleCoupon) {
+        handleApplyCoupon(eligibleCoupon.code);
+      }
+    }
+  }, [orderId, hasCoupon, coupons, displayTotals.subtotal, manualCouponApplied]);
 
   const handleApplyCoupon = async (forcedCode = null) => {
     const code = (forcedCode || couponCode).trim();
