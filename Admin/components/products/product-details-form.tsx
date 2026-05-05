@@ -14,6 +14,7 @@ import { ProductImage } from "../ui/product-image";
 import { Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { useGetProductsQuery } from "@/lib/redux/api/productApi";
 
 interface ProductDetailsFormProps {
   product?: any;
@@ -28,6 +29,7 @@ interface ProductDetailsFormProps {
     stitches?: boolean;
     designSpec?: boolean;
     categories?: boolean;
+    productModel?: string;
   };
   onRemoveExistingImage: (index: number | "main") => void;
   machineFormats?: { id: string; name: string }[];
@@ -79,6 +81,26 @@ export function ProductDetailsForm({
   useEffect(() => {
     if (machineFormats.length) onMachineFormatsLoaded(machineFormats);
   }, [machineFormats]);
+
+  // ---------------- Duplicate Check Logic ----------------
+  const [debouncedModel, setDebouncedModel] = useState("");
+  
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setDebouncedModel(formData.productModel);
+    }, 500);
+    return () => clearTimeout(timer);
+  }, [formData.productModel]);
+
+  const { data: searchResults, isFetching: isSearching } = useGetProductsQuery(
+    { search: debouncedModel, limit: 5 },
+    { skip: !debouncedModel || debouncedModel.length < 2 }
+  );
+
+  const duplicateProduct = searchResults?.data?.find(p => 
+    (p.productModel?.toLowerCase() === debouncedModel.toLowerCase() || p.model?.toLowerCase() === debouncedModel.toLowerCase()) 
+    && p._id !== product?._id
+  );
 
   // ---------------- Local State ----------------
   const [previewImages, setPreviewImages] = useState<string[]>([]);
@@ -246,13 +268,23 @@ export function ProductDetailsForm({
           <div className="grid gap-4 sm:grid-cols-2">
             <div>
               <Label htmlFor="model">Product Name</Label>
-              <Input
-                id="model"
-                placeholder="Enter product name"
-                value={formData.productModel}
-                onChange={e => onChange("productModel", e.target.value)}
-                className="border-gray-300"
-              />
+              <div className="relative">
+                <Input
+                  id="model"
+                  placeholder="Enter product name"
+                  value={formData.productModel}
+                  onChange={e => onChange("productModel", e.target.value)}
+                  className={`border-gray-300 ${duplicateProduct ? "border-red-500 focus:ring-red-500" : ""}`}
+                />
+                {isSearching && (
+                   <div className="absolute right-3 top-2.5 h-4 w-4 animate-spin rounded-full border-2 border-gray-300 border-t-gray-600" />
+                )}
+              </div>
+              {duplicateProduct && (
+                <p className="text-red-500 text-xs mt-1 font-semibold animate-pulse">
+                  ⚠️ A product with this name already exists!
+                </p>
+              )}
             </div>
             <div>
               <Label htmlFor="sku">SKU</Label>
