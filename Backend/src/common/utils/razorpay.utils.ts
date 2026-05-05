@@ -15,7 +15,7 @@ const getRazorpayClient = () => {
   return new Razorpay({ key_id: keyId, key_secret: keySecret });
 };
 
-export const createRazorpayOrder = async (amount: number, currency: string = 'INR', receipt?: string) => {
+export const createRazorpayOrder = async (amount: number, currency: string = 'INR', receipt?: string, notes?: any) => {
   const razorpay = getRazorpayClient();
   if (!razorpay) throw new Error('Razorpay not configured');
 
@@ -24,6 +24,7 @@ export const createRazorpayOrder = async (amount: number, currency: string = 'IN
     currency,
     receipt: receipt || `receipt_${Date.now()}`,
     payment_capture: 1,
+    notes: notes || {},
   };
 
   return await razorpay.orders.create(options);
@@ -40,4 +41,8 @@ export const getPaymentDetails = async (paymentId: string) => {
   const razorpay = getRazorpayClient();
   if (!razorpay) throw new Error('Razorpay not configured');
   return await razorpay.payments.fetch(paymentId);
+};
+
+export const validateWebhookSignature = (body: string, signature: string, secret: string): boolean => {
+  return Razorpay.validateWebhookSignature(body, signature, secret);
 };

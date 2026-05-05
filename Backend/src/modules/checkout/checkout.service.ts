@@ -229,12 +229,35 @@ export class CheckoutService {
     const isValid = verifyPaymentSignature(order.razorpayOrderId, razorpayPaymentId, razorpaySignature);
     if (!isValid) throw new BadRequestException('Invalid payment signature');
 
+    return await this.finalizeOrder(order, razorpayPaymentId);
+  }
+
+  async handleRazorpayWebhook(razorpayOrderId: string, razorpayPaymentId: string) {
+    const order = await this.orderModel.findOne({ razorpayOrderId } as any);
+    if (!order) {
+      console.warn(`[Webhook] Order not found for Razorpay Order ID: ${razorpayOrderId}`);
+      return { success: false, message: 'Order not found' };
+    }
+
+    if (order.orderStatus === 'paid') {
+      return { success: true, message: 'Order already marked as paid' };
+    }
+
+    if (order.orderStatus !== 'pending') {
+      return { success: false, message: `Order status is ${order.orderStatus}, cannot mark as paid` };
+    }
+
+    console.log(`[Webhook] Finalizing order ${order.orderNumber} via webhook for payment ${razorpayPaymentId}`);
+    return await this.finalizeOrder(order, razorpayPaymentId);
+  }
+
+  private async finalizeOrder(order: any, razorpayPaymentId: string) {
     order.orderStatus = 'paid';
     order.paymentMethod = 'Razorpay';
     order.paymentCode = 'razorpay';
     order.history.push({
       orderStatus: 'paid',
-      comment: `Payment completed via Razorpay. ID: ${razorpayPaymentId}`,
+      comment: `Payment completed via Razorpay. ID: ${razorpayPaymentId} (Processed)`,
       notify: true,
       createdAt: new Date()
     } as any);
@@ -242,9 +265,9 @@ export class CheckoutService {
     await order.save();
 
     // Clear cart
-    await this.cartModel.findOneAndUpdate({ customerId: new Types.ObjectId(customerId) } as any, { $set: { items: [] } });
+    await this.cartModel.findOneAndUpdate({ customerId: order.customer } as any, { $set: { items: [] } });
 
-    return await this.buildPostPaymentData(customerId, String(order._id));
+    return await this.buildPostPaymentData(String(order.customer), String(order._id));
   }
 
   async retryPayment(customerId: string, orderId: string) {

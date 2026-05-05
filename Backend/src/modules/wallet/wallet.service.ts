@@ -70,7 +70,12 @@ export class WalletService {
     const receipt = `wallet_${String(customerId).slice(-8)}_${Date.now().toString().slice(-10)}`;
     let razorpayOrder;
     try {
-      razorpayOrder = await createRazorpayOrder(amount, wallet.currency || 'INR', receipt);
+      razorpayOrder = await createRazorpayOrder(
+        amount, 
+        wallet.currency || 'INR', 
+        receipt,
+        { customerId: String(customerId), type: 'wallet_topup' }
+      );
     } catch (error: any) {
       throw new BadRequestException(error?.message || 'Unable to create Razorpay wallet order');
     }
@@ -104,7 +109,30 @@ export class WalletService {
       throw new BadRequestException('Invalid payment signature');
     }
 
+    // Check if this payment was already processed (to avoid double credit)
+    const existing = await this.walletTransactionModel.findOne({ referenceId: razorpayPaymentId });
+    if (existing) {
+      return { success: true, message: 'Payment already processed' };
+    }
+
     return this.addMoney(customerId, Number(amount), razorpayPaymentId, 'Added money to wallet');
+  }
+
+  async handleRazorpayWebhook(razorpayOrderId: string, razorpayPaymentId: string, amount: number, notes: any) {
+    const customerId = notes?.customerId;
+    if (!customerId) {
+      console.warn(`[Wallet Webhook] No customerId found in notes for order ${razorpayOrderId}`);
+      return { success: false, message: 'No customerId in notes' };
+    }
+
+    // Check if already processed
+    const existing = await this.walletTransactionModel.findOne({ referenceId: razorpayPaymentId });
+    if (existing) {
+      return { success: true, message: 'Payment already processed' };
+    }
+
+    console.log(`[Wallet Webhook] Crediting ₹${amount} to customer ${customerId} for payment ${razorpayPaymentId}`);
+    return this.addMoney(customerId, amount, razorpayPaymentId, 'Added money to wallet (via Webhook)');
   }
 
   async payWithWallet(customerId: string, orderId: string) {
