@@ -88,6 +88,8 @@ const Page = () => {
     }
   }, [loading, orderId, checkoutStatus]);
 
+  const [isSuccess, setIsSuccess] = useState(false);
+
   useEffect(() => {
     if (orderId && !checkoutStatus) {
       fetchCheckoutStatus(orderId).catch((error) => {
@@ -95,10 +97,10 @@ const Page = () => {
         clearCheckout();
         router.push('/Cart');
       });
-    } else if (!orderId) {
+    } else if (!orderId && !isSuccess) {
       router.push('/Cart');
     }
-  }, [orderId, checkoutStatus]);
+  }, [orderId, checkoutStatus, isSuccess]);
 
   useEffect(() => {
     if (accessToken) {
@@ -146,6 +148,7 @@ const Page = () => {
   };
 
   const handlePaymentSuccess = async (result) => {
+    setIsSuccess(true);
     await downloadPurchasedFiles(result?.downloads || []);
     clearCartState();
     clearCheckout();
@@ -507,10 +510,10 @@ const Page = () => {
                 <DialogTitle sx={{ fontSize: { xs: 18, sm: 20 } }}>Terms & Conditions</DialogTitle>
                 <DialogContent>
                   <Typography sx={{ fontSize: { xs: 14, sm: 16 } }}>
-                    The purchased products will be available in downloads. If you cannot find them in your downloads, please report the issue via WhatsApp. Do not purchase the same products again. No refunds/exchange will be issued for any digital goods purchased. The product download link will expire after 90 days from the payment date.
+                    The purchased products will be available in downloads. If you cannot find them in your downloads, please report the issue via WhatsApp. Do not purchase the same products again. No refunds/exchange will be issued for any digital goods purchased. <Box component="span" sx={{ fontWeight: 800, px: 0.5 }}>The product download link will expire after 90 days from the payment date.</Box>
                   </Typography>
                   <Typography sx={{ mt: 2, fontSize: { xs: 14, sm: 16 } }}>
-                    మీరు కొనుగోలు చేసిన డిజైన్లు మీ డౌన్లోడ్స్ లో ఉంటాయి. మీకు డిజైన్ కనపడకుంటే దయచేసి మళ్లీ కొనవద్దు. వాట్సాప్ లో మమ్మల్ని సంప్రదించండి. కొనుగోలు చేసిన డిజైన్లకు రీఫండ్/మార్పులు చేయబడవు. చెల్లింపు తేదీ నుండి 90 రోజుల తర్వాత ప్రొడక్ట్ డౌన్‌లోడ్ లింక్ గడువు ముగుస్తుంది.
+                    మీరు కొనుగోలు చేసిన డిజైన్లు మీ డౌన్లోడ్స్ లో ఉంటాయి. మీకు డిజైన్ కనపడకుంటే దయచేసి మళ్లీ కొనవద్దు. వాట్సాప్ లో మమ్మల్ని సంప్రదించండి. కొనుగోలు చేసిన డిజైన్లకు రీఫండ్/మార్పులు చేయబడవు. <Box component="span" sx={{ fontWeight: 800, px: 0.5 }}>చెల్లింపు తేదీ నుండి 90 రోజుల తర్వాత ప్రొడక్ట్ డౌన్‌లోడ్ లింక్ గడువు ముగుస్తుంది.</Box>
                   </Typography>
                 </DialogContent>
                 <DialogActions>

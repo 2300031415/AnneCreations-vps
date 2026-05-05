@@ -21,7 +21,7 @@ function getCustomerId(req: any): string {
 @ApiTags('checkout')
 @Controller('checkout')
 export class CheckoutController {
-  constructor(private readonly checkoutService: CheckoutService) {}
+  constructor(private readonly checkoutService: CheckoutService) { }
 
   @Post('start')
   @ApiBearerAuth()

@@ -94,7 +94,7 @@ const StitchDetails = ({ backStitches = 0, handStitches = 0, stitches = 0 }) => 
                     <Typography variant="body1" fontWeight="bold">{(effectiveBack || 0).toLocaleString()}</Typography>
                 </Box>
                 <Box sx={{ textAlign: 'right' }}>
-                    <Typography variant="caption" color="text.secondary" display="block" gutterBottom>Hand Stitches</Typography>
+                    <Typography variant="caption" color="text.secondary" display="block" gutterBottom>Hands Stitches</Typography>
                     <Typography variant="body1" fontWeight="bold">{(effectiveHandSum || 0).toLocaleString()}</Typography>
                 </Box>
             </Box>

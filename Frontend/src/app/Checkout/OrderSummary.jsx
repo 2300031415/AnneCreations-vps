@@ -145,7 +145,73 @@ const OrderSummary = ({
 
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
-      {/* 1. TOP BOX: Order Summary & Coupon together */}
+      {/* 1. TOP BOX: Products Table (Moved Up) */}
+      <Box sx={{ width: '100%' }}>
+        <Typography variant="h6" fontWeight="bold" sx={{ mb: 2, color: '#311807', fontFamily: 'Poppins', ml: 1 }}>
+          Items in your Order
+        </Typography>
+        {!isMobile ? (
+          <TableContainer
+            sx={{
+              borderRadius: 3,
+              overflowX: "auto",
+              border: "1px solid rgba(0,0,0,0.08)",
+              maxWidth: "100%",
+              bgcolor: "#fff",
+              boxShadow: '0 4px 20px rgba(0,0,0,0.03)'
+            }}
+          >
+            <Table>
+              <TableHead>
+                <TableRow sx={{ bgcolor: 'rgba(0,0,0,0.02)' }}>
+                  {["Design Image", "Design Code", "Price"].map((heading) => (
+                    <TableCell
+                      key={heading}
+                      sx={{
+                        color: "#311807",
+                        fontWeight: "800",
+                        fontSize: 14,
+                        py: 2,
+                        textTransform: 'uppercase',
+                        letterSpacing: '0.5px'
+                      }}
+                    >
+                      {heading}
+                    </TableCell>
+                  ))}
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {products.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={3} align="center" sx={{ py: 6 }}>
+                      Your cart is empty.
+                    </TableCell>
+                  </TableRow>
+                ) : (
+                  products.map((item, idx) => (
+                    <CartItemRow key={item.product?._id || idx} item={item} checkout />
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        ) : (
+          <Box className="flex flex-col gap-4">
+            {products.length === 0 ? (
+              <Typography textAlign="center" py={6} sx={{ bgcolor: '#fff', borderRadius: 3, border: '1px solid #eee' }}>
+                Your cart is empty.
+              </Typography>
+            ) : (
+              products.map((item, idx) => (
+                <CartItemRow key={item.product?._id || idx} item={item} checkout />
+              ))
+            )}
+          </Box>
+        )}
+      </Box>
+
+      {/* 2. BOTTOM BOX: Checkout Summary & Coupon (Moved Down) */}
       <Box sx={{
         p: { xs: 2.5, sm: 4 },
         border: '2px solid var(--primary)',
@@ -229,7 +295,7 @@ const OrderSummary = ({
               </Button>
             </Box>
 
-            {/* ✅ NEW: Available Coupons List */}
+            {/* ✅ Available Coupons List */}
             {coupons && coupons.length > 0 && (
               <Box sx={{ mt: 3 }}>
                 <Typography variant="body2" sx={{ mb: 1.5, fontWeight: 800, color: '#311807', fontFamily: 'Poppins', opacity: 0.8 }}>
@@ -332,72 +398,6 @@ const OrderSummary = ({
             )}
           </Box>
         </Box>
-      </Box>
-
-      {/* 2. BOTTOM BOX: Products Table */}
-      <Box sx={{ width: '100%' }}>
-        <Typography variant="h6" fontWeight="bold" sx={{ mb: 2, color: '#311807', fontFamily: 'Poppins', ml: 1 }}>
-          Items in your Order
-        </Typography>
-        {!isMobile ? (
-          <TableContainer
-            sx={{
-              borderRadius: 3,
-              overflowX: "auto",
-              border: "1px solid rgba(0,0,0,0.08)",
-              maxWidth: "100%",
-              bgcolor: "#fff",
-              boxShadow: '0 4px 20px rgba(0,0,0,0.03)'
-            }}
-          >
-            <Table>
-              <TableHead>
-                <TableRow sx={{ bgcolor: 'rgba(0,0,0,0.02)' }}>
-                  {["Design Image", "Design Code", "Price"].map((heading) => (
-                    <TableCell
-                      key={heading}
-                      sx={{
-                        color: "#311807",
-                        fontWeight: "800",
-                        fontSize: 14,
-                        py: 2,
-                        textTransform: 'uppercase',
-                        letterSpacing: '0.5px'
-                      }}
-                    >
-                      {heading}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </TableHead>
-              <TableBody>
-                {products.length === 0 ? (
-                  <TableRow>
-                    <TableCell colSpan={3} align="center" sx={{ py: 6 }}>
-                      Your cart is empty.
-                    </TableCell>
-                  </TableRow>
-                ) : (
-                  products.map((item, idx) => (
-                    <CartItemRow key={item.product?._id || idx} item={item} checkout />
-                  ))
-                )}
-              </TableBody>
-            </Table>
-          </TableContainer>
-        ) : (
-          <Box className="flex flex-col gap-4">
-            {products.length === 0 ? (
-              <Typography textAlign="center" py={6} sx={{ bgcolor: '#fff', borderRadius: 3, border: '1px solid #eee' }}>
-                Your cart is empty.
-              </Typography>
-            ) : (
-              products.map((item, idx) => (
-                <CartItemRow key={item.product?._id || idx} item={item} checkout />
-              ))
-            )}
-          </Box>
-        )}
       </Box>
     </Box>
   );

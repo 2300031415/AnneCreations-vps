@@ -212,18 +212,6 @@ const SearchBar = ({ centered = false }) => {
           {loading && (
             <CircularProgress size={24} sx={{ color: 'var(--primary)' }} />
           )}
-
-          <Tooltip title="Search by image">
-            <IconButton
-              onClick={() => setIsModalOpen(true)}
-              sx={{
-                color: 'var(--secondary)',
-                '&:hover': { color: 'var(--primary)' }
-              }}
-            >
-              <MdCameraAlt size={24} />
-            </IconButton>
-          </Tooltip>
         </Box>
       </SearchWrapper>
 

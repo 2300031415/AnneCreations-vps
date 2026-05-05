@@ -104,7 +104,7 @@ const GlobalCalculatorModal = ({ open, onClose }) => {
                     </Grid>
                     <Grid item xs={12} sm={6}>
                         <TextField
-                            label="Hand Stitches"
+                            label="Hands Stitches"
                             type="number"
                             fullWidth
                             variant="outlined"

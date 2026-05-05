@@ -11,7 +11,11 @@ const AnnouncementStrip = () => {
             try {
                 const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5000'}/api/settings/public?t=${Date.now()}`);
                 if (!response.ok) return;
-                const result = await response.json();
+                
+                const text = await response.text();
+                if (!text) return;
+
+                const result = JSON.parse(text);
                 if (result.data && result.data.scrolling_message) {
                     setScrollingText(result.data.scrolling_message);
                 }
@@ -21,7 +25,7 @@ const AnnouncementStrip = () => {
         };
 
         fetchSettings();
-    }, [t]);
+    }, []);
 
     const stripColor = '#496637';
 
@@ -33,7 +37,7 @@ const AnnouncementStrip = () => {
             {/* Marquee Section */}
             <div className="py-1 overflow-hidden relative bg-white">
                 <div
-                    className="flex whitespace-nowrap text-(--secondary) font-semibold gap-8"
+                    className="flex whitespace-nowrap text-(--secondary) font-semibold gap-20"
                     style={{
                         animation: 'scroll-left 20s linear infinite',
                     }}
@@ -41,7 +45,7 @@ const AnnouncementStrip = () => {
                     {/* Duplicate text enough times to fill screen and loop smoothly */}
                     {[...Array(6)].map((_, i) => (
                         <span key={i} className="inline-block">
-                            {scrollingText} &nbsp; &bull; &nbsp;
+                            {scrollingText} &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                         </span>
                     ))}
                 </div>

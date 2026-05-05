@@ -21,7 +21,7 @@ export class CheckoutService {
     @InjectModel(CouponUsage.name) private couponUsageModel: Model<CouponUsageDocument>,
     @InjectModel(Customer.name) private customerModel: Model<CustomerDocument>,
     private readonly salesService: SalesService,
-  ) {}
+  ) { }
 
   async startCheckout(customerId: string, addressData: any) {
     const cart = await this.cartModel.findOne({ customerId: new Types.ObjectId(customerId) } as any)
@@ -39,16 +39,16 @@ export class CheckoutService {
 
     for (const item of cart.items) {
       if (!item.product) continue;
-      
+
       let itemOptions = [];
       let itemSubtotal = 0;
-      
+
       for (const opt of item.options) {
         const price = await this.salesService.getDiscountedPrice(item.product, opt);
         itemOptions.push({ ...opt, price }); // Save the actual paid price in order
         itemSubtotal += price;
       }
-      
+
       finalItems.push({
         product: (item.product as any)._id,
         options: itemOptions,
@@ -122,10 +122,10 @@ export class CheckoutService {
       applied: Boolean(order.coupon),
       calculation: order.coupon
         ? {
-            originalAmount: subtotal,
-            discountAmount: discount,
-            finalAmount: total,
-          }
+          originalAmount: subtotal,
+          discountAmount: discount,
+          finalAmount: total,
+        }
         : null,
       message: order.coupon ? 'Coupon applied successfully' : null,
     };
@@ -197,27 +197,27 @@ export class CheckoutService {
     } catch (error: any) {
       throw new BadRequestException(error?.message || 'Unable to create Razorpay order');
     }
-    
+
     order.razorpayOrderId = razorpayOrder.id;
     await order.save();
 
     return {
-        key: process.env.RAZORPAY_KEY_ID,
-        orderId: String(order._id),
-        orderNumber: order.orderNumber,
-        amount: razorpayOrder.amount,
-        amountDisplay: order.orderTotal,
-        currency: razorpayOrder.currency,
-        razorpayOrderId: razorpayOrder.id,
-        receipt: razorpayOrder.receipt,
-        paymentRequired: order.orderTotal > 0
+      key: process.env.RAZORPAY_KEY_ID,
+      orderId: String(order._id),
+      orderNumber: order.orderNumber,
+      amount: razorpayOrder.amount,
+      amountDisplay: order.orderTotal,
+      currency: razorpayOrder.currency,
+      razorpayOrderId: razorpayOrder.id,
+      receipt: razorpayOrder.receipt,
+      paymentRequired: order.orderTotal > 0
     };
   }
 
   async completeCheckout(customerId: string, paymentData: any) {
     const { orderId, razorpayOrderId, razorpayPaymentId, razorpaySignature } = paymentData;
     const order = await this.orderModel.findOne({ _id: orderId, customer: new Types.ObjectId(customerId) } as any);
-    
+
     if (!order) throw new NotFoundException('Order not found');
     if (order.orderStatus !== 'pending') throw new BadRequestException('Order already processed');
     if (!order.razorpayOrderId) throw new BadRequestException('Payment order not initialized');

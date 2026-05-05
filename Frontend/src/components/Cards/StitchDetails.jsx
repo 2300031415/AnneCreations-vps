@@ -73,7 +73,7 @@ const StitchDetails = ({ backStitches = 0, handStitches = 0, stitches = 0 }) => 
                     </Typography>
                 </Box>
                 <Box sx={{ textAlign: 'right' }}>
-                    <Typography variant="caption" color="text.secondary" display="block" gutterBottom>Hand Stitches</Typography>
+                    <Typography variant="caption" color="text.secondary" display="block" gutterBottom>Hands Stitches</Typography>
                     <Typography variant="body1" fontWeight="bold">
                         {extractedData.hands.map(h => h.toLocaleString()).join(', ')}
                     </Typography>
@@ -83,7 +83,7 @@ const StitchDetails = ({ backStitches = 0, handStitches = 0, stitches = 0 }) => 
             {/* Hand Selection Toggle */}
             <Box mb={3}>
                 <Typography variant="body2" fontWeight="bold" color="text.secondary" gutterBottom sx={{ fontSize: '0.75rem', textTransform: 'uppercase' }}>
-                    Select Execution Mode (Hand Stitches)
+                    Select Execution Mode (Hands Stitches)
                 </Typography>
                 <ToggleButtonGroup
                     value={selectedHandIndex}
