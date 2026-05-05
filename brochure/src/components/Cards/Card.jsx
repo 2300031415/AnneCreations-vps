@@ -132,25 +132,6 @@ const ArrivalCard = ({ item, categoryName = 'Premium Embroidery' }) => {
              {item.productModel}
           </div>
 
-          {/* Action Buttons Overlay */}
-          <div className="absolute bottom-2 left-2 right-2 flex justify-between gap-2 translate-y-10 group-hover:translate-y-0 transition-transform duration-300">
-            <button 
-              onClick={handleShare}
-              className="flex-1 bg-green-500 hover:bg-green-600 text-white p-2 rounded-lg flex items-center justify-center gap-1 shadow-md"
-            >
-              <FaWhatsapp size={16} />
-              <span className="text-[10px] font-bold">SHARE</span>
-            </button>
-            <button 
-              onClick={handleDownload}
-              disabled={isDownloading}
-              className="flex-1 bg-red-600 hover:bg-red-700 text-white p-2 rounded-lg flex items-center justify-center gap-1 shadow-md disabled:opacity-50"
-            >
-              <MdPictureAsPdf size={16} />
-              <span className="text-[10px] font-bold">{isDownloading ? '...' : 'PDF'}</span>
-            </button>
-          </div>
-
           {/* Zoom hint overlay */}
           <div className="absolute inset-0 bg-black/0 group-hover:bg-black/5 transition-all duration-300 flex items-center justify-center pointer-events-none">
             <span className="opacity-0 group-hover:opacity-100 transition-opacity text-white text-[10px] font-bold bg-black/50 px-3 py-1 rounded-full">
@@ -158,15 +139,34 @@ const ArrivalCard = ({ item, categoryName = 'Premium Embroidery' }) => {
             </span>
           </div>
         </div>
-
         {/* Product Footer */}
-        <div className="p-3 bg-white border-t border-gray-50">
-          <h3 className="text-[11px] font-black uppercase text-[#311807] tracking-tight truncate">
-             ID: {item.productModel}
-          </h3>
-          <p className="text-[10px] font-extrabold text-[#8B4513] opacity-80 mt-1 uppercase tracking-tighter">
-             {categoryName}
-          </p>
+        <div className="p-3 bg-white border-t border-gray-50 flex items-center justify-between">
+          <div className="flex-1 min-w-0">
+            <h3 className="text-[11px] font-black uppercase text-[#311807] tracking-tight truncate">
+               ID: {item.productModel}
+            </h3>
+            <p className="text-[10px] font-extrabold text-[#8B4513] opacity-80 mt-1 uppercase tracking-tighter">
+               {categoryName}
+            </p>
+          </div>
+          
+          <div className="flex items-center gap-2 ml-2">
+            <button 
+              onClick={handleShare}
+              className="p-1.5 text-green-600 hover:bg-green-50 rounded-full transition-colors"
+              title="Share on WhatsApp"
+            >
+              <FaWhatsapp size={18} />
+            </button>
+            <button 
+              onClick={handleDownload}
+              disabled={isDownloading}
+              className="p-1.5 text-red-600 hover:bg-red-50 rounded-full transition-colors disabled:opacity-30"
+              title="Download PDF Catalog"
+            >
+              <MdPictureAsPdf size={18} />
+            </button>
+          </div>
         </div>
 
         {/* Subtle Overlay on hover */}
