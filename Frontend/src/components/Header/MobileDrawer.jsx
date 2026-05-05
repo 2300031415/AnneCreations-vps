@@ -206,14 +206,7 @@ const MobileDrawer = ({ onClose, onOpenCalculator }) => {
             </ListItemButton>
           </ListItem>
 
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => handleNavigate('/Category')} sx={{ py: 1 }}>
-              <ListItemIcon sx={{ minWidth: 36, color: 'var(--secondary)' }}><MdPalette size={20} /></ListItemIcon>
-              <ListItemText primary={t('nav.our_designs', 'Categories')} primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }} />
-            </ListItemButton>
-          </ListItem>
-
-          {/* Categories Dropdown */}
+          {/* Categories Dropdown (Consolidated) */}
           <ListItem disablePadding>
             <ListItemButton onClick={() => setCategoriesOpen(!categoriesOpen)} sx={{ py: 1 }}>
               <ListItemIcon sx={{ minWidth: 36, color: 'var(--secondary)' }}><MdCategory size={20} /></ListItemIcon>
@@ -225,10 +218,10 @@ const MobileDrawer = ({ onClose, onOpenCalculator }) => {
           <Collapse in={categoriesOpen} timeout="auto" unmountOnExit>
             <List component="div" disablePadding sx={{ bgcolor: 'rgba(0,0,0,0.01)' }}>
               {[
-                { id: 'all', name: t('tabs.all', 'All Designs'), link: '/?tab=all' },
+                { id: 'all', name: t('tabs.all', 'All'), link: '/?tab=all' },
+                { id: 'categories', name: t('nav.categories', 'Categories'), link: '/Category' },
                 { id: 'deals', name: t('tabs.todays_deals', "Today's Deals"), link: '/?tab=deals' },
-                { id: 'new', name: t('tabs.new_releases', 'New Arrivals'), link: '/?tab=new' },
-                { id: 'sale', name: t('tabs.on_sale', 'On Sale'), link: '/?tab=sale' },
+                { id: 'new', name: t('tabs.new_releases', 'New Releases'), link: '/?tab=new' },
                 { id: 'free', name: t('tabs.free_designs', 'Free Designs'), link: '/?tab=free' },
               ].map((item) => (
                 <ListItemButton
@@ -274,14 +267,8 @@ const MobileDrawer = ({ onClose, onOpenCalculator }) => {
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton onClick={onOpenCalculator} sx={{ py: 1 }}>
-              <ListItemIcon sx={{ minWidth: 36, color: 'var(--secondary)' }}></ListItemIcon>
+              <ListItemIcon sx={{ minWidth: 36, color: 'var(--secondary)' }}><FaCalculator size={18} /></ListItemIcon>
               <ListItemText primary="Calculator" primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }} />
-            </ListItemButton>
-          </ListItem>
-          <ListItem disablePadding>
-            <ListItemButton onClick={() => handleNavigate('/history')} sx={{ py: 0.7 }}>
-              <ListItemIcon sx={{ minWidth: 36, color: 'var(--secondary)' }}><MdHistory size={20} /></ListItemIcon>
-              <ListItemText primary={t('nav.recently_viewed', 'Recently Viewed')} primaryTypographyProps={{ fontWeight: 600, fontSize: '0.85rem' }} />
             </ListItemButton>
           </ListItem>
         </List>
