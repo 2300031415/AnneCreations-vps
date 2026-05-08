@@ -99,8 +99,8 @@ const CartItemRow = ({ item, checkout = false }) => {
             onClick={goToProductPage}
             sx={{
               cursor: item.product ? 'pointer' : 'default',
-              width: 90,
-              height: 90,
+              width: 75,
+              height: 75,
               borderRadius: 2,
               overflow: 'hidden',
               flexShrink: 0,
@@ -197,7 +197,7 @@ const CartItemRow = ({ item, checkout = false }) => {
            DESKTOP: table row layout
          ------------------------ */
         <TableRow>
-          <TableCell sx={{ width: 250, padding: '16px' }}>
+          <TableCell sx={{ width: 200, padding: '16px' }}>
             <Box
               display="flex"
               alignItems="center"
@@ -209,8 +209,8 @@ const CartItemRow = ({ item, checkout = false }) => {
                 <Image
                   src={`${API_URL}/${(productData?.image || '').replace(/^(\/|image\/)+/, '')}`}
                   alt={productData?.productModel || 'Product image'}
-                  width={250}
-                  height={200}
+                  width={180}
+                  height={150}
                   style={{ objectFit: 'contain', borderRadius: '8px' }}
                 />
               ) : (

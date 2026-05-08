@@ -6,6 +6,7 @@ import Link from 'next/link';
 import { MdMenu } from 'react-icons/md';
 import DesktopNav from './DesktopNav';
 import MobileDrawer from './MobileDrawer';
+import SearchBar from './SearchBar';
 
 const Header = () => {
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false);
@@ -68,8 +69,10 @@ const Header = () => {
             <DesktopNav />
           </Box>
           
-          {/* Spacer */}
-          <Box sx={{ flexGrow: 1 }} />
+          {/* Search Bar - Center/Right */}
+          <Box sx={{ flexGrow: 1, display: 'flex', justifyContent: 'center', mx: { xs: 1, md: 4 } }}>
+            <SearchBar />
+          </Box>
         </Box>
       </Container>
 

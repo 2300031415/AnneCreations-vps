@@ -245,7 +245,7 @@ export function CategoriesList() {
                 <TableHead className="pl-6">
                   <Button
                     variant="ghost"
-                    className="flex h-8 items-center gap-1.5 p-0 font-bold text-[#311807]/40 uppercase text-[10px] tracking-widest hover:bg-transparent hover:text-[#311807]"
+                    className="flex h-8 items-center gap-1.5 p-0 font-bold text-[#311807]/70 uppercase text-[12px] tracking-widest hover:bg-transparent hover:text-[#311807]"
                     onClick={() => handleSort("name")}
                   >
                     Category Name
@@ -255,7 +255,7 @@ export function CategoriesList() {
                 <TableHead>
                   <Button
                     variant="ghost"
-                    className="flex h-8 items-center gap-1.5 p-0 font-bold text-[#311807]/40 uppercase text-[10px] tracking-widest hover:bg-transparent hover:text-[#311807]"
+                    className="flex h-8 items-center gap-1.5 p-0 font-bold text-[#311807]/70 uppercase text-[12px] tracking-widest hover:bg-transparent hover:text-[#311807]"
                     onClick={() => handleSort("sortPosition")}
                   >
                     Order
@@ -265,7 +265,7 @@ export function CategoriesList() {
                 <TableHead>
                   <Button
                     variant="ghost"
-                    className="flex h-8 items-center gap-1.5 p-0 font-bold text-[#311807]/40 uppercase text-[10px] tracking-widest hover:bg-transparent hover:text-[#311807]"
+                    className="flex h-8 items-center gap-1.5 p-0 font-bold text-[#311807]/70 uppercase text-[12px] tracking-widest hover:bg-transparent hover:text-[#311807]"
                     onClick={() => handleSort("count")}
                   >
                     Total Products
@@ -275,14 +275,14 @@ export function CategoriesList() {
                 <TableHead>
                   <Button
                     variant="ghost"
-                    className="flex h-8 items-center gap-1.5 p-0 font-bold text-[#311807]/40 uppercase text-[10px] tracking-widest hover:bg-transparent hover:text-[#311807]"
+                    className="flex h-8 items-center gap-1.5 p-0 font-bold text-[#311807]/70 uppercase text-[12px] tracking-widest hover:bg-transparent hover:text-[#311807]"
                     onClick={() => handleSort("updatedAt")}
                   >
                     Last Refined
                     {sortField === "updatedAt" && (sortDirection === "asc" ? <ArrowUpIcon className="h-3 w-3" /> : <ArrowDownIcon className="h-3 w-3" />)}
                   </Button>
                 </TableHead>
-                <TableHead className="text-right pr-6 font-bold text-[#311807]/40 uppercase text-[10px] tracking-widest">Management</TableHead>
+                <TableHead className="text-right pr-6 font-bold text-[#311807]/70 uppercase text-[12px] tracking-widest">Management</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -293,13 +293,13 @@ export function CategoriesList() {
                       <span className="font-bold text-[#311807]">{category.name}</span>
                     </TableCell>
                     <TableCell>
-                      <span className="text-[10px] font-bold bg-[#311807]/5 text-[#311807]/60 px-2 py-1 rounded-md">{category.sortPosition}</span>
+                      <span className="text-[10px] font-bold bg-[#311807]/5 text-[#311807]/80 px-2 py-1 rounded-md">{category.sortPosition}</span>
                     </TableCell>
                     <TableCell>
                       <span className="font-bold text-[#311807]">{category.count}</span>
                     </TableCell>
                     <TableCell>
-                      <span className="text-xs text-[#311807]/50 font-medium">{formatDateOnlyIST(category.updatedAt)}</span>
+                      <span className="text-xs text-[#311807]/70 font-medium">{formatDateOnlyIST(category.updatedAt)}</span>
                     </TableCell>
                     <TableCell className="text-right pr-6">
                       <div className="flex justify-end gap-2">

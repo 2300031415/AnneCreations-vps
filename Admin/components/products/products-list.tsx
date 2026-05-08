@@ -341,12 +341,12 @@ export function ProductsList() {
           <Table>
             <TableHeader>
               <TableRow className="border-b border-[#311807]/5 hover:bg-transparent">
-                <TableHead className="w-[100px] font-bold text-[#311807]/40 uppercase text-[10px] tracking-widest pl-6">Preview</TableHead>
-                <TableHead className="font-bold text-[#311807]/40 uppercase text-[10px] tracking-widest">Product Details</TableHead>
-                <TableHead className="font-bold text-[#311807]/40 uppercase text-[10px] tracking-widest">Category</TableHead>
-                <TableHead className="font-bold text-[#311807]/40 uppercase text-[10px] tracking-widest">Total Sales</TableHead>
-                <TableHead className="font-bold text-[#311807]/40 uppercase text-[10px] tracking-widest">Visibility</TableHead>
-                <TableHead className="text-right font-bold text-[#311807]/40 uppercase text-[10px] tracking-widest pr-6">Management</TableHead>
+                <TableHead className="w-[100px] font-bold text-[#311807]/70 uppercase text-[12px] tracking-widest pl-6">Preview</TableHead>
+                <TableHead className="font-bold text-[#311807]/70 uppercase text-[12px] tracking-widest">Product Details</TableHead>
+                <TableHead className="font-bold text-[#311807]/70 uppercase text-[12px] tracking-widest">Category</TableHead>
+                <TableHead className="font-bold text-[#311807]/70 uppercase text-[12px] tracking-widest">Total Sales</TableHead>
+                <TableHead className="font-bold text-[#311807]/70 uppercase text-[12px] tracking-widest">Visibility</TableHead>
+                <TableHead className="text-right font-bold text-[#311807]/70 uppercase text-[12px] tracking-widest pr-6">Management</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -387,7 +387,7 @@ export function ProductsList() {
                     <TableCell>
                       <div className="flex flex-col">
                         <span className="font-bold text-[#311807]">{product.productModel}</span>
-                        <span className="text-[10px] text-[#311807]/40 font-mono">ID: {product._id.slice(-6).toUpperCase()}</span>
+                        <span className="text-[10px] text-[#311807]/60 font-mono">ID: {product._id.slice(-6).toUpperCase()}</span>
                       </div>
                     </TableCell>
                     <TableCell>
