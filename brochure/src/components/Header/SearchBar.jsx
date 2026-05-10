@@ -126,7 +126,17 @@ const SearchBar = ({ centered = false }) => {
     setSearchTerm('');
     setShowSuggestions(false);
     setSelectedIndex(-1);
-    router.push(`/product/${product.productModel}`);
+    
+    // Find category info for navigation
+    const categoryId = product.categories?.[0]?._id || product.category;
+    const categoryName = product.categories?.[0]?.name || 'Design';
+    
+    if (categoryId) {
+      router.push(`/category/${categoryId}?name=${encodeURIComponent(categoryName)}`);
+    } else {
+      // Fallback if no category info is available
+      router.push(`/category/all?name=All%20Designs`);
+    }
   };
 
   const handleKeyDown = (e) => {

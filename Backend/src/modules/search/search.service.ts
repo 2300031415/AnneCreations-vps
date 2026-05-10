@@ -46,6 +46,7 @@ export class SearchService {
       sku: p.sku,
       image: p.image ? (p.image.startsWith('catalog') ? p.image : `catalog/${p.image}`) : null,
       category: p.categories?.[0]?.name || 'Uncategorized',
+      categories: p.categories || [],
       price: p.options?.[0]?.price || 0,
     }));
 
@@ -110,6 +111,7 @@ export class SearchService {
       sku: p.sku,
       image: p.image ? (p.image.startsWith('catalog') ? p.image : `catalog/${p.image}`) : null,
       category: p.categories?.[0]?.name || 'Design',
+      categories: p.categories || [],
       price: p.options?.[0]?.price || 0,
     }));
 
