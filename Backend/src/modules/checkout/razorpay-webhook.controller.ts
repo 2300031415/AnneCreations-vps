@@ -19,13 +19,19 @@ export class RazorpayWebhookController {
     
     if (webhookSecret) {
       if (!signature) {
+        console.error('[Webhook] Missing Razorpay signature header');
         throw new BadRequestException('Missing Razorpay signature');
       }
 
       const rawBody = req.rawBody ? req.rawBody.toString() : JSON.stringify(body);
       const isValid = validateWebhookSignature(rawBody, signature, webhookSecret);
+      
+      console.log(`[Webhook] Signature Verification: ${isValid ? 'SUCCESS' : 'FAILED'}`);
+      
       if (!isValid) {
         console.error('[Webhook] Invalid signature received');
+        // If it fails, let's log a bit of the body to see if it matches
+        console.log(`[Webhook] Body starts with: ${rawBody.substring(0, 50)}...`);
         throw new BadRequestException('Invalid signature');
       }
     }
