@@ -216,6 +216,7 @@ export class CheckoutService {
   }
 
   async completeCheckout(customerId: string, paymentData: any) {
+    console.log('[Payment] >>> ENTERING completeCheckout');
     const { orderId, razorpayOrderId, razorpayPaymentId, razorpaySignature } = paymentData;
     const order = await this.orderModel.findOne({ _id: orderId, customer: new Types.ObjectId(customerId) } as any);
 
