@@ -198,8 +198,9 @@ export class CheckoutService {
       throw new BadRequestException(error?.message || 'Unable to create Razorpay order');
     }
 
-    order.razorpayOrderId = razorpayOrder.id;
-    await order.save();
+    await this.orderModel.findByIdAndUpdate(order._id, {
+      $set: { razorpayOrderId: razorpayOrder.id }
+    });
 
     return {
       key: process.env.RAZORPAY_KEY_ID,
@@ -252,17 +253,21 @@ export class CheckoutService {
   }
 
   private async finalizeOrder(order: any, razorpayPaymentId: string) {
-    order.orderStatus = 'paid';
-    order.paymentMethod = 'Razorpay';
-    order.paymentCode = 'razorpay';
-    order.history.push({
-      orderStatus: 'paid',
-      comment: `Payment completed via Razorpay. ID: ${razorpayPaymentId} (Processed)`,
-      notify: true,
-      createdAt: new Date()
-    } as any);
-
-    await order.save();
+    await this.orderModel.findByIdAndUpdate(order._id, {
+      $set: {
+        orderStatus: 'paid',
+        paymentMethod: 'Razorpay',
+        paymentCode: 'razorpay'
+      },
+      $push: {
+        history: {
+          orderStatus: 'paid',
+          comment: `Payment completed via Razorpay. ID: ${razorpayPaymentId} (Processed)`,
+          notify: true,
+          createdAt: new Date()
+        }
+      }
+    });
 
     // Clear cart
     await this.cartModel.findOneAndUpdate({ customerId: order.customer } as any, { $set: { items: [] } });

@@ -107,16 +107,18 @@ export class CouponsService {
     const discountAmount = Math.min(discount, subtotal);
     const finalTotal = subtotal - discountAmount;
 
-    // Update order
-    order.coupon = coupon._id as any;
-    order.orderTotal = finalTotal;
-    order.totals = [
-        { code: 'subtotal', value: subtotal, sortOrder: 1 },
-        { code: 'couponDiscount', value: discountAmount, sortOrder: 2 },
-        { code: 'total', value: finalTotal, sortOrder: 3 }
-    ] as any;
-
-    await order.save();
+    // Update order atomically to avoid VersionError
+    await this.orderModel.findByIdAndUpdate(orderId, {
+      $set: {
+        coupon: coupon._id,
+        orderTotal: finalTotal,
+        totals: [
+          { code: 'subtotal', value: subtotal, sortOrder: 1 },
+          { code: 'couponDiscount', value: discountAmount, sortOrder: 2 },
+          { code: 'total', value: finalTotal, sortOrder: 3 }
+        ]
+      }
+    });
 
     return {
       coupon: {
@@ -200,15 +202,17 @@ export class CouponsService {
     const subtotalItem = order.totals.find((t: any) => t.code === 'subtotal');
     const originalSubtotal = subtotalItem ? subtotalItem.value : order.orderTotal;
 
-    // Reset order
-    order.coupon = null as any;
-    order.orderTotal = originalSubtotal;
-    order.totals = [
-        { code: 'subtotal', value: originalSubtotal, sortOrder: 1 },
-        { code: 'total', value: originalSubtotal, sortOrder: 2 }
-    ] as any;
-
-    await order.save();
+    // Reset order atomically
+    await this.orderModel.findByIdAndUpdate(orderId, {
+      $set: {
+        coupon: null,
+        orderTotal: originalSubtotal,
+        totals: [
+          { code: 'subtotal', value: originalSubtotal, sortOrder: 1 },
+          { code: 'total', value: originalSubtotal, sortOrder: 2 }
+        ]
+      }
+    });
 
     return {
         success: true,

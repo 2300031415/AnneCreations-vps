@@ -87,17 +87,20 @@ const OrderSummary = ({
         };
     })();
 
+  const [autoApplyAttempted, setAutoApplyAttempted] = useState(false);
+
   // ✅ Auto apply coupon once when component mounts and orderId is available
   useEffect(() => {
-    // Only attempt if order is ready, no manual coupon set, and we have the coupons list
-    if (orderId && !hasCoupon && coupons && coupons.length > 0 && !manualCouponApplied) {
+    // Only attempt if order is ready, no manual coupon set, and we haven't tried yet
+    if (orderId && !hasCoupon && coupons && coupons.length > 0 && !manualCouponApplied && !autoApplyAttempted) {
       // Find first eligible coupon based on subtotal
       const eligibleCoupon = coupons.find(c => displayTotals.subtotal >= c.minAmount);
       if (eligibleCoupon) {
+        setAutoApplyAttempted(true);
         handleApplyCoupon(eligibleCoupon.code);
       }
     }
-  }, [orderId, hasCoupon, coupons, displayTotals.subtotal, manualCouponApplied]);
+  }, [orderId, hasCoupon, coupons, displayTotals.subtotal, manualCouponApplied, autoApplyAttempted]);
 
   const handleApplyCoupon = async (forcedCode = null) => {
     const code = (forcedCode || couponCode).trim();
