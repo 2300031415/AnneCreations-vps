@@ -227,8 +227,16 @@ export class CheckoutService {
     }
 
     // Verify payment
+    console.log(`[Payment] Verifying Payment for Order: ${order.orderNumber}`);
+    console.log(`[Payment] IDs: RazorpayOrder=${order.razorpayOrderId}, PaymentId=${razorpayPaymentId}`);
+    
     const isValid = verifyPaymentSignature(order.razorpayOrderId, razorpayPaymentId, razorpaySignature);
-    if (!isValid) throw new BadRequestException('Invalid payment signature');
+    console.log(`[Payment] Signature Verification: ${isValid ? 'SUCCESS' : 'FAILED'}`);
+    
+    if (!isValid) {
+      console.error(`[Payment] Signature verification failed for order ${order.orderNumber}`);
+      throw new BadRequestException('Invalid payment signature - check your RAZORPAY_KEY_SECRET');
+    }
 
     return await this.finalizeOrder(order, razorpayPaymentId);
   }
