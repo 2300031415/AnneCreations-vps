@@ -33,8 +33,9 @@ export const createRazorpayOrder = async (amount: number, currency: string = 'IN
 export const verifyPaymentSignature = (orderId: string, paymentId: string, signature: string): boolean => {
   const { keySecret } = getRazorpayConfig();
   if (!keySecret) return false;
-  const text = `${orderId}|${paymentId}`;
-  return generateSignature(text, keySecret) === signature;
+  // Use trim() to prevent accidental whitespace issues
+  const text = `${orderId.trim()}|${paymentId.trim()}`;
+  return generateSignature(text, keySecret.trim()) === signature.trim();
 };
 
 export const getPaymentDetails = async (paymentId: string) => {
