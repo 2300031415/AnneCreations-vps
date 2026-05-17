@@ -510,11 +510,19 @@ const Page = () => {
                 <DialogTitle sx={{ fontSize: { xs: 18, sm: 20 } }}>Terms & Conditions</DialogTitle>
                 <DialogContent>
                   <Typography sx={{ fontSize: { xs: 14, sm: 16 } }}>
-                    The purchased products will be available in downloads. If you cannot find them in your downloads, please report the issue via WhatsApp. Do not purchase the same products again. No refunds/exchange will be issued for any digital goods purchased. <Box component="span" sx={{ fontWeight: 800, px: 0.5 }}>The product download link will expire after 90 days from the payment date.</Box>
+                    The purchased products will be available in downloads. If you cannot find them in your downloads, please report the issue via WhatsApp. Do not purchase the same products again. No refunds/exchange will be issued for any digital goods purchased.
                   </Typography>
                   <Typography sx={{ mt: 2, fontSize: { xs: 14, sm: 16 } }}>
-                    మీరు కొనుగోలు చేసిన డిజైన్లు మీ డౌన్లోడ్స్ లో ఉంటాయి. మీకు డిజైన్ కనపడకుంటే దయచేసి మళ్లీ కొనవద్దు. వాట్సాప్ లో మమ్మల్ని సంప్రదించండి. కొనుగోలు చేసిన డిజైన్లకు రీఫండ్/మార్పులు చేయబడవు. <Box component="span" sx={{ fontWeight: 800, px: 0.5 }}>చెల్లింపు తేదీ నుండి 90 రోజుల తర్వాత ప్రొడక్ట్ డౌన్‌లోడ్ లింక్ గడువు ముగుస్తుంది.</Box>
+                    మీరు కొనుగోలు చేసిన డిజైన్లు మీ డౌన్లోడ్స్ లో ఉంటాయి. మీకు డిజైన్ కనపడకుంటే దయచేసి మళ్లీ కొనవద్దు. వాట్సాప్ లో మమ్మల్ని సంప్రదించండి. కొనుగోలు చేసిన డిజైన్లకు రీఫండ్/మార్పులు చేయబడవు.
                   </Typography>
+                  <Box sx={{ mt: 3, p: 2, bgcolor: '#FFF5F5', borderRadius: 1, border: '1px solid #FFCDD2' }}>
+                    <Typography sx={{ fontWeight: 'bold', color: '#D32F2F', fontSize: { xs: 13, sm: 15 } }}>
+                      Note: The product download link will expire after 90 days from the payment date.
+                    </Typography>
+                    <Typography sx={{ mt: 1, fontWeight: 'bold', color: '#D32F2F', fontSize: { xs: 13, sm: 15 } }}>
+                      గమనిక: చెల్లింపు తేదీ నుండి 90 రోజుల తర్వాత ఉత్పత్తి డౌన్‌లోడ్ లింక్ గడువు ముగుస్తుంది.
+                    </Typography>
+                  </Box>
                 </DialogContent>
                 <DialogActions>
                   <Button onClick={handleDialogCancel} color="error" sx={{ fontSize: { xs: 12, sm: 14 } }}>
