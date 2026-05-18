@@ -264,6 +264,36 @@ const AiChat = () => {
         window.addEventListener('mouseup', handleMouseUp);
     };
 
+    const handleTouchStart = (e) => {
+        isDragging.current = false;
+        const touch = e.touches[0];
+        dragStart.current = { x: touch.clientX, y: touch.clientY };
+
+        const handleTouchMove = (tmEvent) => {
+            const touchMove = tmEvent.touches[0];
+            const dx = dragStart.current.x - touchMove.clientX;
+            const dy = dragStart.current.y - touchMove.clientY;
+
+            // If moved significantly, it is a drag
+            if (Math.abs(dx) > 5 || Math.abs(dy) > 5) {
+                isDragging.current = true;
+                setPosition((prev) => ({
+                    x: prev.x + dx,
+                    y: prev.y + dy,
+                }));
+                dragStart.current = { x: touchMove.clientX, y: touchMove.clientY };
+            }
+        };
+
+        const handleTouchEnd = () => {
+            window.removeEventListener('touchmove', handleTouchMove);
+            window.removeEventListener('touchend', handleTouchEnd);
+        };
+
+        window.addEventListener('touchmove', handleTouchMove, { passive: false });
+        window.addEventListener('touchend', handleTouchEnd);
+    };
+
     const handleClick = () => {
         if (!isDragging.current) {
             setIsOpen(!isOpen);
@@ -275,6 +305,7 @@ const AiChat = () => {
             {/* Floating Toggle - Movable */}
             <Box
                 onMouseDown={handleMouseDown}
+                onTouchStart={handleTouchStart}
                 sx={{
                     position: 'fixed',
                     bottom: position.y,
