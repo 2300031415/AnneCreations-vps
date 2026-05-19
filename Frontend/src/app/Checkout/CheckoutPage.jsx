@@ -159,6 +159,11 @@ const Page = () => {
     setOpenDialog(false);
     if (!orderId) return;
 
+    if (paymentMethod === 'wallet') {
+      await handleWalletPayment();
+      return;
+    }
+
     let paymentData;
     try {
       paymentData = await createPaymentInfo(orderId);
@@ -244,10 +249,8 @@ const Page = () => {
         alert('Insufficient wallet balance. Please add money or choose online payment.');
         return;
       }
-      handleWalletPayment();
-    } else {
-      setOpenDialog(true);
     }
+    setOpenDialog(true);
   };
 
   const handleWalletPayment = async () => {
