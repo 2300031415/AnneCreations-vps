@@ -80,7 +80,7 @@ export class AuthController {
   @HttpCode(HttpStatus.OK)
   @ApiOperation({ summary: 'Send OTP to mobile' })
   async sendOtp(@Body() body: any) {
-    return this.authService.sendCustomerOtp(body.mobile);
+    return this.authService.sendCustomerOtp(body.mobile, body.email);
   }
 
   @Post('verify-otp')

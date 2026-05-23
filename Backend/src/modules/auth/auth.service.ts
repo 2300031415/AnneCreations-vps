@@ -18,16 +18,24 @@ export class AuthService {
   ) {}
 
 
-  async sendCustomerOtp(mobile: string) {
+  async sendCustomerOtp(mobile: string, email?: string) {
     const normalizedMobile = String(mobile || '').trim();
     if (!/^\d{10,15}$/.test(normalizedMobile)) {
       throw new BadRequestException('Valid mobile number is required');
     }
 
-    // ✅ Check BEFORE sending OTP: if already registered, reject immediately
-    const existingCustomer = await this.customersService.findByMobile(normalizedMobile);
-    if (existingCustomer) {
+    // ✅ Check BEFORE sending OTP: if mobile or email already registered, reject immediately
+    const existingCustomerMobile = await this.customersService.findByMobile(normalizedMobile);
+    if (existingCustomerMobile) {
       throw new ConflictException('Mobile number already registered. Please login instead.');
+    }
+
+    if (email) {
+      const normalizedEmail = String(email).trim().toLowerCase();
+      const existingCustomerEmail = await this.customersService.findByEmail(normalizedEmail);
+      if (existingCustomerEmail) {
+        throw new ConflictException('Email already registered. Please use a different email or login.');
+      }
     }
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();

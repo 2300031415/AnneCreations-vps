@@ -90,10 +90,10 @@ export const useAuthStore = create(
       },
 
       // ---------------- SEND OTP ----------------
-      sendOtp: async (mobile, clientSource = 'web') => {
+      sendOtp: async (mobile, email, clientSource = 'web') => {
         try {
           set({ isLoading: true, error: null });
-          const payload = { mobile, timestamp: Date.now() };
+          const payload = { mobile, email, timestamp: Date.now() };
           const headers = {
             'Content-Type': 'application/json',
             'X-Client-Source': clientSource,
