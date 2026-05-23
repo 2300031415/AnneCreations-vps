@@ -31,7 +31,9 @@
     "custom_design": "Custom Design",
     "about_us": "About Us",
     "contact_us": "Contact Us",
-    "help": "Help"
+    "help": "Help",
+    "design": "Design",
+    "calculator": "Calculator"
   },
   "home": {
     "new_arrivals": "New Arrivals",

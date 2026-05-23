@@ -110,14 +110,14 @@ const Header_links = () => {
               {t('nav.help')}
             </Link>
             <a href="https://brochure.lowcostfreedom.com/" target="_blank" rel="noopener noreferrer" className={linkClass('/brochure')}>
-              Design
+              {t('nav.design')}
             </a>
             <span 
               onClick={() => setCalculatorOpen(true)} 
               style={{ cursor: 'pointer', display: 'inline-block', verticalAlign: 'middle' }}
               className={linkClass('/calculator')}
             >
-              Calculator
+              {t('nav.calculator')}
             </span>
           </Box>
         </Box>

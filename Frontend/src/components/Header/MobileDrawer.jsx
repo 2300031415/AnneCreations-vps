@@ -262,13 +262,13 @@ const MobileDrawer = ({ onClose, onOpenCalculator }) => {
           <ListItem disablePadding>
             <ListItemButton component="a" href="https://brochure.lowcostfreedom.com/" target="_blank" rel="noopener noreferrer" sx={{ py: 1 }}>
               <ListItemIcon sx={{ minWidth: 36, color: 'var(--secondary)' }}><MdPalette size={20} /></ListItemIcon>
-              <ListItemText primary="Design" primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }} />
+              <ListItemText primary={t('nav.design', 'Design')} primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }} />
             </ListItemButton>
           </ListItem>
           <ListItem disablePadding>
             <ListItemButton onClick={onOpenCalculator} sx={{ py: 1 }}>
               <ListItemIcon sx={{ minWidth: 36, color: 'var(--secondary)' }}><FaCalculator size={18} /></ListItemIcon>
-              <ListItemText primary="Calculator" primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }} />
+              <ListItemText primary={t('nav.calculator', 'Calculator')} primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }} />
             </ListItemButton>
           </ListItem>
         </List>

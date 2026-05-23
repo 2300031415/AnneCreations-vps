@@ -32,7 +32,9 @@
         "custom_design": "कस्टम डिजाइन",
         "about_us": "हमारे बारे में",
         "contact_us": "संपर्क करें",
-        "help": "सहायता"
+        "help": "सहायता",
+        "design": "डिजाइन",
+        "calculator": "कैलकुलेटर"
     },
     "home": {
         "new_arrivals": "नया आगमन",
