@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException, BadRequestException } from '@nestjs/common';
+import { Injectable, UnauthorizedException, BadRequestException, ConflictException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { AdminsService } from '../users/services/admins.service';
 import { CustomersService } from '../users/services/customers.service';
@@ -17,10 +17,17 @@ export class AuthService {
     @InjectModel(Otp.name) private otpModel: Model<OtpDocument>,
   ) {}
 
+
   async sendCustomerOtp(mobile: string) {
     const normalizedMobile = String(mobile || '').trim();
     if (!/^\d{10,15}$/.test(normalizedMobile)) {
       throw new BadRequestException('Valid mobile number is required');
+    }
+
+    // ✅ Check BEFORE sending OTP: if already registered, reject immediately
+    const existingCustomer = await this.customersService.findByMobile(normalizedMobile);
+    if (existingCustomer) {
+      throw new ConflictException('Mobile number already registered. Please login instead.');
     }
 
     const code = Math.floor(100000 + Math.random() * 900000).toString();
