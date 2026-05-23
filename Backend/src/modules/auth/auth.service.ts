@@ -32,7 +32,7 @@ export class AuthService {
       createdAt: new Date(),
     });
 
-    console.log(`[DEV OTP] Mobile ${normalizedMobile} => ${code}`);
+    console.log(`[OTP Sent] Mobile ${normalizedMobile}`);
 
     // Track SMS result but don't block user flow in dev
     await sendOTP(normalizedMobile, code);
