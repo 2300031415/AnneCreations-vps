@@ -115,11 +115,11 @@ export const useAuthStore = create(
           set({ isLoading: false });
           return { success: true, data: response.data };
         } catch (err) {
-          console.log(err);
+          const status = err?.response?.status;
           const errorMsg = err?.response?.data?.message || 'Failed to send OTP';
           console.error('OTP error:', errorMsg);
           set({ isLoading: false, error: errorMsg });
-          return { success: false, error: errorMsg };
+          return { success: false, error: errorMsg, status, message: errorMsg };
         }
       },
 

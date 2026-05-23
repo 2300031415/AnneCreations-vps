@@ -3,13 +3,15 @@ import { MdClose } from 'react-icons/md';
 import React, { useState, useMemo } from 'react';
 import Image from 'next/image';
 import PropTypes from 'prop-types';
-import { FaRegHeart, FaShareAlt } from 'react-icons/fa';
+import { FaEye, FaRegHeart, FaShareAlt } from 'react-icons/fa';
 import { MdOutlineShoppingCart } from 'react-icons/md';
 import FullImageView from './FullImageView';
 import { useProductCardStore } from './ProductCardStore';
 import { IconButton } from '@mui/material';
 import ImageMagnifier from '../ImageZoom/ImageMagnifier';
 import LoginForm from '@/app/Auth/Login/LoginForm';
+import PreviewDesignModal from './PreviewDesignModal';
+import { loadAndParseZip } from '../../lib/zipLoader';
 
 // ✅ MUI imports
 import { Modal, Box, Typography, Rating } from '@mui/material';
@@ -25,6 +27,31 @@ const ProductCard = ({ item }) => {
   }, [item, fallbackImage]);
 
   const [currentImage, setCurrentImage] = useState(allImages[0].image);
+
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [previewLoading, setPreviewLoading] = useState(false);
+  const [previewFiles, setPreviewFiles] = useState([]);
+  const [previewVariantName, setPreviewVariantName] = useState('');
+
+  const handleOpenPreview = async () => {
+    const selectedOption = item.options?.find(opt => store.selectedAddons.includes(opt._id)) || item.options?.[0];
+    if (!selectedOption) return;
+
+    const zipUrl = `${store.API_URL}/${selectedOption.uploadedFilePath}`;
+    setPreviewVariantName(selectedOption.option?.name || 'Standard Package');
+    setPreviewOpen(true);
+    setPreviewLoading(true);
+    setPreviewFiles([]);
+
+    try {
+      const files = await loadAndParseZip(zipUrl);
+      setPreviewFiles(files);
+    } catch (err) {
+      console.error("Failed to parse design preview zip:", err);
+    } finally {
+      setPreviewLoading(false);
+    }
+  };
 
   return (
     <>
@@ -93,7 +120,7 @@ const ProductCard = ({ item }) => {
               </div>
 
               {/* Addons */}
-              <div className="flex-1 min-w-0">
+              <div className="flex-1 min-w-0 flex flex-col justify-between">
                 {item.options?.length > 0 ? (
                   <ul className="space-y-2">
                     {item.options.map((option) => {
@@ -136,6 +163,37 @@ const ProductCard = ({ item }) => {
                   </ul>
                 ) : (
                   <p className="text-sm text-(--secondary) italic">No add-ons available</p>
+                )}
+
+                {item.options?.length > 0 && (
+                  <button
+                    type="button"
+                    onClick={handleOpenPreview}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'space-between',
+                      gap: '4px',
+                      width: '100%',
+                      padding: '8px 12px',
+                      marginTop: '12px',
+                      border: '1.2px dashed #ccd88f',
+                      borderRadius: '8px',
+                      background: '#fff',
+                      color: '#311807',
+                      fontSize: '12.5px',
+                      fontWeight: '600',
+                      cursor: 'pointer',
+                      transition: 'all 0.15s ease',
+                    }}
+                    className="hover:bg-[#f0f4e8]"
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                      <FaEye style={{ color: '#ccd88f', flexShrink: 0 }} size={14} />
+                      <span>Preview Design Files</span>
+                    </div>
+                    <span style={{ fontSize: '10px', color: '#888' }}>⚡ Preview</span>
+                  </button>
                 )}
               </div>
             </div>
@@ -219,6 +277,15 @@ const ProductCard = ({ item }) => {
           <LoginForm />
         </Box>
       </Modal>
+
+      <PreviewDesignModal
+        open={previewOpen}
+        loading={previewLoading}
+        productTitle={item.productModel}
+        variantName={previewVariantName}
+        files={previewFiles}
+        onClose={() => setPreviewOpen(false)}
+      />
     </>
   );
 };

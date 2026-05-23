@@ -108,19 +108,27 @@ const RegisterForm = () => {
     }
 
     try {
-      // ✅ Send OTP to mobile first
+      // ✅ Send OTP to mobile — backend now checks if already registered BEFORE sending OTP
       const otpResponse = await sendOtp(formData.phone);
 
       if (otpResponse?.success) {
         setApiMessage("OTP sent successfully! Please verify.");
         setOtpTarget("phone");
-        setOtpModalOpen(true); // ✅ open OTP modal
+        setOtpModalOpen(true);
+      } else if (otpResponse?.status === 409 || otpResponse?.message?.toLowerCase().includes('already registered')) {
+        // ✅ Already registered — do NOT open OTP modal, show clear message
+        setApiMessage("⚠️ This mobile number is already registered. Please login instead.");
       } else {
-        setApiMessage(otpResponse?.error || "Failed to send OTP.");
+        setApiMessage(otpResponse?.error || otpResponse?.message || "Failed to send OTP. Please try again.");
       }
     } catch (error) {
-      console.error("OTP error:", error);
-      setApiMessage("Failed to send OTP. Please try again.");
+      const errMsg = error?.response?.data?.message || error?.message || '';
+      if (error?.response?.status === 409 || errMsg.toLowerCase().includes('already registered')) {
+        setApiMessage("⚠️ This mobile number is already registered. Please login instead.");
+      } else {
+        console.error("OTP error:", error);
+        setApiMessage("Failed to send OTP. Please try again.");
+      }
     }
   };
 
