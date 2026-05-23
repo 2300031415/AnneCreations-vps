@@ -72,3 +72,81 @@ export async function loadAndParseZip(zipUrl) {
     throw err;
   }
 }
+
+// --- Local File Handlers for Global Stitch Viewer ---
+
+export async function parseLocalFile(file) {
+  try {
+    const buffer = await file.arrayBuffer();
+    const fileName = file.name;
+    const parsed = parseEmbroideryBuffer(buffer, fileName);
+    const ext = fileName.split('.').pop().toUpperCase();
+    
+    return {
+      id: fileName,
+      fileName,
+      format: ext,
+      previewDataUrl: parsed.previewDataUrl,
+      stats: {
+        stitchCount: parsed.stitchCount,
+        colorCount: parsed.colorCount,
+        trimCount: parsed.trimCount,
+        widthMm: parsed.widthMm,
+        heightMm: parsed.heightMm,
+      },
+    };
+  } catch (err) {
+    console.error(`Error parsing local file ${file.name}:`, err);
+    throw err;
+  }
+}
+
+export async function parseLocalZip(file) {
+  try {
+    const buffer = await file.arrayBuffer();
+    const zip = await JSZip.loadAsync(buffer);
+    const files = [];
+
+    const validEntries = [];
+    zip.forEach((relativePath, fileEntry) => {
+      if (!fileEntry.dir) {
+        const ext = relativePath.toLowerCase();
+        if (ext.endsWith('.dst') || ext.endsWith('.jef') || ext.endsWith('.pes')) {
+          validEntries.push({ relativePath, fileEntry });
+        }
+      }
+    });
+
+    for (const { relativePath, fileEntry } of validEntries) {
+      try {
+        const fileBuffer = await fileEntry.async('arraybuffer');
+        const parts = relativePath.split('/');
+        const fileName = parts[parts.length - 1];
+        
+        const parsed = parseEmbroideryBuffer(fileBuffer, fileName);
+        const ext = fileName.split('.').pop().toUpperCase();
+
+        files.push({
+          id: relativePath,
+          fileName,
+          format: ext,
+          previewDataUrl: parsed.previewDataUrl,
+          stats: {
+            stitchCount: parsed.stitchCount,
+            colorCount: parsed.colorCount,
+            trimCount: parsed.trimCount,
+            widthMm: parsed.widthMm,
+            heightMm: parsed.heightMm,
+          },
+        });
+      } catch (err) {
+        console.error(`Error parsing embroidery file ${relativePath} from zip:`, err);
+      }
+    }
+
+    return files;
+  } catch (err) {
+    console.error('Error extracting local zip file:', err);
+    throw err;
+  }
+}

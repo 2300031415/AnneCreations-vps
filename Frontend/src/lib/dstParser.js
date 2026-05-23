@@ -383,7 +383,7 @@ function renderDstPreview(segments, minX, minY, maxX, maxY) {
 
   const toCanvas = (px, py) => ({
     x: padding + (px - minX) * scale,
-    y: padding + (maxY - py) * scale,
+    y: padding + (py - minY) * scale,
   });
 
   for (const seg of segments) {

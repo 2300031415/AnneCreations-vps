@@ -10,8 +10,9 @@ import {
 import ProfileMenu from './ProfileMenu'
 import Logo from './Logo'
 import GlobalCalculatorModal from './GlobalCalculatorModal'
+import GlobalStitchViewerModal from './GlobalStitchViewerModal'
 import LanguageSelector from './LanguageSelector'
-import { FaBars, FaWallet, FaCalculator } from 'react-icons/fa'
+import { FaBars, FaWallet, FaCalculator, FaEye } from 'react-icons/fa'
 import { MdMenu } from 'react-icons/md'
 import MobileDrawer from './MobileDrawer'
 import { Tooltip, Badge } from '@mui/material'
@@ -29,6 +30,7 @@ const Header_links = () => {
   const [profileAnchorEl, setProfileAnchorEl] = useState(null)
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [calculatorOpen, setCalculatorOpen] = useState(false)
+  const [stitchViewerOpen, setStitchViewerOpen] = useState(false)
   const pathname = usePathname();
   const router = useRouter();
   const resetFilters = useFilterStore(state => state.resetFilters);
@@ -119,10 +121,18 @@ const Header_links = () => {
             >
               {t('nav.calculator')}
             </span>
+            <span 
+              onClick={() => setStitchViewerOpen(true)} 
+              style={{ cursor: 'pointer', display: 'inline-block', verticalAlign: 'middle' }}
+              className={linkClass('/stitch-viewer')}
+            >
+              {t('nav.stitch_viewer', 'Stitch Review')}
+            </span>
           </Box>
         </Box>
         
         <GlobalCalculatorModal open={calculatorOpen} onClose={() => setCalculatorOpen(false)} />
+        <GlobalStitchViewerModal open={stitchViewerOpen} onClose={() => setStitchViewerOpen(false)} />
 
         {/* Right: Language + Wallet + Profile */}
         <Box display="flex" alignItems="center" sx={{ flexShrink: 0 }}>
@@ -171,6 +181,10 @@ const Header_links = () => {
           onOpenCalculator={() => {
             setMobileMenuOpen(false);
             setCalculatorOpen(true);
+          }}
+          onOpenStitchViewer={() => {
+            setMobileMenuOpen(false);
+            setStitchViewerOpen(true);
           }}
         />
       </Drawer>

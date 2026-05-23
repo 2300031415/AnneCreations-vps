@@ -34,13 +34,13 @@ import {
   MdFavorite,
   MdHistory,
 } from 'react-icons/md';
-import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube, FaWallet, FaCalculator } from 'react-icons/fa';
+import { FaFacebook, FaInstagram, FaWhatsapp, FaYoutube, FaWallet, FaCalculator, FaEye } from 'react-icons/fa';
 import { BsCart3 } from 'react-icons/bs';
 import { useWalletStore } from '@/Store/walletStore';
 import useWishlistStore from '@/Store/wishlistStore';
 import useCartStore from '@/Store/cartStore';
 
-const MobileDrawer = ({ onClose, onOpenCalculator }) => {
+const MobileDrawer = ({ onClose, onOpenCalculator, onOpenStitchViewer }) => {
   const { t } = useTranslation();
   const router = useRouter();
   const [categoriesOpen, setCategoriesOpen] = useState(false);
@@ -269,6 +269,12 @@ const MobileDrawer = ({ onClose, onOpenCalculator }) => {
             <ListItemButton onClick={onOpenCalculator} sx={{ py: 1 }}>
               <ListItemIcon sx={{ minWidth: 36, color: 'var(--secondary)' }}><FaCalculator size={18} /></ListItemIcon>
               <ListItemText primary={t('nav.calculator', 'Calculator')} primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }} />
+            </ListItemButton>
+          </ListItem>
+          <ListItem disablePadding>
+            <ListItemButton onClick={onOpenStitchViewer} sx={{ py: 1 }}>
+              <ListItemIcon sx={{ minWidth: 36, color: 'var(--secondary)' }}><FaEye size={18} /></ListItemIcon>
+              <ListItemText primary={t('nav.stitch_viewer', 'Stitch Review')} primaryTypographyProps={{ fontWeight: 600, fontSize: '0.9rem' }} />
             </ListItemButton>
           </ListItem>
         </List>
