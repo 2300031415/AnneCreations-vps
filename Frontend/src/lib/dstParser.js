@@ -365,8 +365,9 @@ export function parseEmbroideryBuffer(buffer, fileName) {
 function renderDstPreview(segments, minX, minY, maxX, maxY) {
   if (typeof document === 'undefined') return ''; // Safety for SSR
   
-  const size = 160;
-  const padding = 12;
+  // Use a much higher resolution canvas for crisp image quality
+  const size = 800;
+  const padding = 40;
   const canvas = document.createElement('canvas');
   canvas.width = size;
   canvas.height = size;
@@ -374,6 +375,7 @@ function renderDstPreview(segments, minX, minY, maxX, maxY) {
   const ctx = canvas.getContext('2d');
   if (!ctx) return '';
 
+  // Transparent or slightly off-white background
   ctx.fillStyle = '#ffffff';
   ctx.fillRect(0, 0, size, size);
 
@@ -383,16 +385,19 @@ function renderDstPreview(segments, minX, minY, maxX, maxY) {
 
   const toCanvas = (px, py) => ({
     x: padding + (px - minX) * scale,
-    y: padding + (py - minY) * scale,
+    y: padding + (maxY - py) * scale,
   });
+
+  // Optimize path drawing
+  ctx.lineCap = 'round';
+  ctx.lineJoin = 'round';
+  ctx.lineWidth = 2.5;
 
   for (const seg of segments) {
     if (seg.jump) continue;
     const from = toCanvas(seg.x1, seg.y1);
     const to = toCanvas(seg.x2, seg.y2);
     ctx.strokeStyle = EMBROIDERY_PALETTE[seg.colorIndex % EMBROIDERY_PALETTE.length];
-    ctx.lineWidth = 1.2;
-    ctx.lineCap = 'round';
     ctx.beginPath();
     ctx.moveTo(from.x, from.y);
     ctx.lineTo(to.x, to.y);
