@@ -116,9 +116,9 @@ export function DesignFileCard({ file }) {
         {thumbSrc ? (
           <img className="design-file-card__thumb" src={thumbSrc} alt="" />
         ) : (
-          <div className="design-file-card__thumb design-file-card__thumb--placeholder" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '4px', padding: '8px', boxSizing: 'border-box' }}>
-            <IconStitches style={{ width: '24px', height: '24px', color: '#ccd88f' }} />
-            <span style={{ fontSize: '9px', fontWeight: 'bold', color: '#777', letterSpacing: '0.05em' }}>PREVIEW</span>
+          <div className="design-file-card__thumb design-file-card__thumb--placeholder" style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', justifyContent: 'center', gap: '6px', padding: '12px', boxSizing: 'border-box' }}>
+            <IconStitches style={{ width: '36px', height: '36px', color: '#ccd88f' }} />
+            <span style={{ fontSize: '11px', fontWeight: 'bold', color: '#777', letterSpacing: '0.05em' }}>PREVIEW</span>
           </div>
         )}
       </div>

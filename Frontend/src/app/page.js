@@ -153,12 +153,19 @@ const HomePageContent = () => {
 
   // Sync category from URL param
   useEffect(() => {
-    const catId = searchParams.get('category');
-    if (catId) {
-      setSelectedCategories([catId]);
+    const catParam = searchParams.get('category');
+    if (catParam) {
+      const matched = categories?.find(
+        (c) => c._id === catParam || c.name.toLowerCase() === catParam.toLowerCase()
+      );
+      if (matched) {
+        setSelectedCategories([matched._id]);
+      } else {
+        setSelectedCategories([catParam]);
+      }
       setActiveTab('all');
     }
-  }, [searchParams, setSelectedCategories, setActiveTab]);
+  }, [searchParams, categories, setSelectedCategories, setActiveTab]);
 
 
 
