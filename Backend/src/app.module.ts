@@ -44,7 +44,7 @@ import { SalesModule } from './modules/sales/sales.module';
       inject: [ConfigService],
       useFactory: async (configService: ConfigService) => ({
         uri: configService.get<string>('MONGODB_URI'),
-        dbName: configService.get<string>('DB_NAME') || 'annecreations',
+        dbName: configService.get<string>('DB_NAME') || 'anneCreationsProd',
         // Example: other mongoose options could go here
       }),
     }),
