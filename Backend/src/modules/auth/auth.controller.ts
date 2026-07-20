@@ -180,7 +180,7 @@ export class AuthController {
       { expiresIn: '1h' }
     );
 
-    const resetLink = `${process.env.FRONTEND_URL || 'http://lowcostfreedom.com'}/reset-password?token=${resetToken}`;
+    const resetLink = `${process.env.FRONTEND_URL || 'https://annecreationshb.com'}/reset-password?token=${resetToken}`;
 
     try {
       await sendEmail({
