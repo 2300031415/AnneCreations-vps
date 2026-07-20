@@ -61,7 +61,7 @@ const AiChat = () => {
                     id: Date.now() + 1,
                     sender: 'bot',
                     text: 'You can explore our full collection on our Brochure Portal! Is there a specific category you are looking for? (e.g., Floral, Festive, Animal)',
-                    link: 'https://brochure.lowcostfreedom.com/',
+                    link: process.env.NEXT_PUBLIC_BROCHURE_URL || 'https://brochure.annecreationshb.com/',
                     linkText: 'Open Brochure Portal'
                 }]);
                 setAwaitingCategory(true);
@@ -79,7 +79,8 @@ const AiChat = () => {
 
             setTimeout(() => {
                 if (matchedCategory) {
-                    const brochureUrl = `https://brochure.lowcostfreedom.com/category/${matchedCategory._id}?name=${encodeURIComponent(matchedCategory.name)}`;
+                    const brochureBase = process.env.NEXT_PUBLIC_BROCHURE_URL || 'https://brochure.annecreationshb.com';
+                    const brochureUrl = `${brochureBase}/category/${matchedCategory._id}?name=${encodeURIComponent(matchedCategory.name)}`;
                     setMessages(prev => [...prev, {
                         id: Date.now() + 1,
                         sender: 'bot',
@@ -92,7 +93,7 @@ const AiChat = () => {
                         id: Date.now() + 1,
                         sender: 'bot',
                         text: "I couldn't find a specific category for that, but you can see everything in our brochure portal.",
-                        link: 'https://brochure.lowcostfreedom.com/',
+                        link: process.env.NEXT_PUBLIC_BROCHURE_URL || 'https://brochure.annecreationshb.com/',
                         linkText: 'Open Brochure Portal'
                     }]);
                 }
