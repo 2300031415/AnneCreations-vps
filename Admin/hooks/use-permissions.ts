@@ -56,7 +56,7 @@ export const usePermissions = () => {
     // }
 
     const isSuperAdmin = useMemo(() => {
-        return user?.isSuperAdmin === true;
+        return user?.isSuperAdmin === true || user?.role?.name === 'SuperAdmin';
     }, [user]);
 
     const permissions = useMemo(() => {
