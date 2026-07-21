@@ -29,17 +29,17 @@ export class DownloadsService {
 
     // Check expiry
     const orderDate = new Date(order.createdAt);
-    const cutoffDate = new Date('2026-04-21T23:59:59.999Z');
+    const cutoffDate = new Date('2026-06-21T23:59:59.999Z');
 
     let expiryDate: Date;
     if ((order as any).expiryDate) {
       expiryDate = new Date((order as any).expiryDate);
     } else if (orderDate <= cutoffDate) {
-      // For past orders created up to 21-04-2026: Grant 3 extra months from today for downloads
+      // For past orders created up to 21-06-2026: Grant 3 extra months from today for downloads
       expiryDate = new Date();
       expiryDate.setMonth(expiryDate.getMonth() + 3);
     } else {
-      // For orders created after 21-04-2026 & new daily customers: Default 3 months limit
+      // For orders created after 21-06-2026 & new daily customers: Default 3 months limit
       expiryDate = new Date(orderDate);
       expiryDate.setMonth(expiryDate.getMonth() + 3);
     }
