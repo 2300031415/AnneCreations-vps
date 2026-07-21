@@ -141,6 +141,20 @@ export class OrdersService {
     if (query.customer) {
       filters.customer = new Types.ObjectId(query.customer);
     }
+    if (query.dateFrom || query.dateTo) {
+      const dateFilter: any = {};
+      if (query.dateFrom) {
+        const fromDate = new Date(query.dateFrom);
+        fromDate.setHours(0, 0, 0, 0);
+        dateFilter.$gte = fromDate;
+      }
+      if (query.dateTo) {
+        const toDate = new Date(query.dateTo);
+        toDate.setHours(23, 59, 59, 999);
+        dateFilter.$lte = toDate;
+      }
+      filters.createdAt = dateFilter;
+    }
     if (query.search) {
       const term = String(query.search).trim();
       const regex = { $regex: term, $options: 'i' };

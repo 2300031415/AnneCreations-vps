@@ -164,6 +164,7 @@ export const customersApi = baseApi.injectEndpoints({
         method: "POST",
         body: { customerId },
       }),
+      transformResponse: (response: any) => response.data || response,
     }),
   }),
   overrideExisting: false,

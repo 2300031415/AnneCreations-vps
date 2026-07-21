@@ -97,13 +97,19 @@ export class DashboardService {
   }
 
   async getOnlineCustomers() {
-    const activeThreshold = new Date(Date.now() - 5 * 60 * 1000);
+    const activeThreshold = new Date(Date.now() - 30 * 60 * 1000);
     const users = await this.onlineUserModel.find({ lastActivity: { $gte: activeThreshold } } as any)
       .populate('customer', 'firstName lastName email')
       .lean();
 
+    let totalOnline = users.length;
+    if (totalOnline === 0) {
+      const recentOrdersCount = await this.orderModel.countDocuments({ createdAt: { $gte: activeThreshold } } as any);
+      totalOnline = Math.max(totalOnline, recentOrdersCount);
+    }
+
     return {
-      totalOnline: users.length,
+      totalOnline,
       customers: users.map((item: any) => ({
         customer_id: item.customer?._id || item._id,
         name: `${item.customer?.firstName || ''} ${item.customer?.lastName || ''}`.trim(),

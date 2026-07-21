@@ -332,14 +332,23 @@ export function CustomersList() {
                                 onSelect={async (e) => {
                                   e.preventDefault();
                                   try {
-                                    const response = await loginAsCustomer(customer._id).unwrap();
-                                    localStorage.setItem('customerAccessToken', response.accessToken);
-                                    localStorage.setItem('customerRefreshToken', response.refreshToken);
+                                    const response: any = await loginAsCustomer(customer._id).unwrap();
+                                    const resData = response.data || response;
+                                    const token = resData.accessToken;
+                                    const refreshToken = resData.refreshToken;
 
-                                    const customerSiteUrl = `${BASE_URL}/Auth/Login` || 'https://annecreation.reesanit.com/Auth/Login';
-                                    window.open(`${customerSiteUrl}?token=${response.accessToken}&origin=admin`, '_blank');
+                                    if (!token) {
+                                      toast.error("Failed to generate customer token");
+                                      return;
+                                    }
 
-                                    toast.success(`Logged in as ${response.customer.firstName} ${response.customer.lastName}`);
+                                    localStorage.setItem('customerAccessToken', token);
+                                    if (refreshToken) localStorage.setItem('customerRefreshToken', refreshToken);
+
+                                    const customerSiteUrl = process.env.NEXT_PUBLIC_FRONTEND_URL || 'https://annecreationshb.com';
+                                    window.open(`${customerSiteUrl}/Auth/Login?token=${token}&origin=admin`, '_blank');
+
+                                    toast.success(`Logged in as ${resData.customer?.firstName || 'Customer'}`);
                                   } catch (error: any) {
                                     console.error('Failed to login as customer:', error);
                                     toast.error(error.data?.message || 'Failed to login as customer');
