@@ -94,7 +94,7 @@ const LoginPageContent = () => {
                 color: "var(--secondary)",
               }}
             >
-              Have an account? Log in with your email address
+              Have an account? Log in with your mobile number
             </Typography>
             <LoginForm redirectOnSuccess />
           </CardContent>

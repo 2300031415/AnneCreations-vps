@@ -105,7 +105,7 @@ const MobileSender = () => {
             </Typography>
 
             <Typography className="text-center text-(--secondary) my-5 font-semibold">
-              Enter your mobile number to receive a password reset link via SMS.
+              Enter your mobile number to receive a password reset link via mail.
             </Typography>
 
             <Box className="px-8 md:px-20 my-10">
@@ -154,13 +154,13 @@ const MobileSender = () => {
                 disabled={loading}
                 onClick={handleSend}
               >
-                {loading ? 'Sending...' : 'Send SMS Link'}
+                {loading ? 'Sending...' : 'Send Mail Link'}
               </Button>
             </Box>
 
             {sent && (
               <Typography sx={{ color: 'green', fontSize: '14px' }} className="text-center mt-4">
-                SMS sent successfully! Please check your messages.
+                Mail sent successfully! Please check your mail.
               </Typography>
             )}
 
