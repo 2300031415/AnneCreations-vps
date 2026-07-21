@@ -121,6 +121,13 @@ export class CustomersService {
   }
 
   async findByMobile(mobile: string) {
+    const clean = String(mobile || '').replace(/\D/g, '');
+    if (clean.length >= 7) {
+      const lastDigits = clean.slice(-10);
+      const regex = new RegExp(lastDigits + '$');
+      const match = await this.customerModel.findOne({ mobile: { $regex: regex } } as any).select('+password').lean();
+      if (match) return match;
+    }
     return await this.customerModel.findOne({ mobile }).select('+password').lean();
   }
 
@@ -130,11 +137,18 @@ export class CustomersService {
 
   async findByMobileOrEmail(identifier: string) {
     const normalized = identifier.trim();
-    return await this.customerModel.findOne({
+    const clean = normalized.replace(/\D/g, '');
+    const query: any = {
       $or: [
         { mobile: normalized },
         { email: normalized.toLowerCase() },
       ],
-    } as any).select('+password').lean();
+    };
+    if (clean.length >= 7) {
+      const lastDigits = clean.slice(-10);
+      query.$or.push({ mobile: new RegExp(lastDigits + '$') });
+    }
+
+    return await this.customerModel.findOne(query as any).select('+password').lean();
   }
 }

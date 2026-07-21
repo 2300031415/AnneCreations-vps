@@ -163,7 +163,8 @@ export class AuthController {
     }
 
     const customer = await this.customersService.findByMobile(identifier) || 
-                     await this.customersService.findByEmail(identifier);
+                     await this.customersService.findByEmail(identifier) ||
+                     await this.customersService.findByMobileOrEmail(identifier);
     
     if (!customer) {
       // For security, don't reveal if user exists
