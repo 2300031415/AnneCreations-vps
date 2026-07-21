@@ -27,13 +27,24 @@ export class DownloadsService {
 
     if (!order) throw new ForbiddenException('You must purchase this product to download files');
 
-    // Check expiry (3 months = ~90 days)
+    // Check expiry
     const orderDate = new Date(order.createdAt);
-    const expiryDate = new Date(orderDate);
-    expiryDate.setMonth(expiryDate.getMonth() + 3);
+    const cutoffDate = new Date('2026-04-21T23:59:59.999Z');
+
+    let expiryDate: Date;
+    if ((order as any).expiryDate) {
+      expiryDate = new Date((order as any).expiryDate);
+    } else if (orderDate <= cutoffDate) {
+      // For past orders created up to 21-04-2026: Grant 3 extra days from today for downloads
+      expiryDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+    } else {
+      // For orders created after 21-04-2026 & new daily customers: Default 3 months limit
+      expiryDate = new Date(orderDate);
+      expiryDate.setMonth(expiryDate.getMonth() + 3);
+    }
 
     if (new Date() > expiryDate) {
-      throw new ForbiddenException('Download link has expired (3 months limit)');
+      throw new ForbiddenException('Download link has expired');
     }
 
     return true;
