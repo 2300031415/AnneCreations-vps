@@ -167,12 +167,7 @@ export class AuthController {
                      await this.customersService.findByMobileOrEmail(identifier);
     
     if (!customer) {
-      // For security, don't reveal if user exists
       return { success: true, message: 'If account exists, reset instructions will be sent' };
-    }
-
-    if (!customer.email) {
-      throw new BadRequestException('No email associated with this account. Please contact support.');
     }
 
     const resetToken = jwt.sign(
@@ -184,29 +179,30 @@ export class AuthController {
     const frontendBase = process.env.FRONTEND_URL || process.env.frontEndUrl || 'https://annecreationshb.com';
     const resetLink = `${frontendBase}/reset-password?token=${resetToken}`;
 
-    try {
-      await sendEmail({
-        to: customer.email,
-        subject: 'Reset Your Anne Creations Password',
-        template: `
-          <div style="font-family: Arial, sans-serif; color: #311807; max-width: 600px; margin: 0 auto; border: 1px solid #ccd88f; padding: 20px; border-radius: 10px;">
-            <h2 style="color: #ccd88f; text-align: center;">Password Reset Request</h2>
-            <p>Hello ${customer.firstName || 'Customer'},</p>
-            <p>We received a request to reset your password for your Anne Creations account.</p>
-            <p style="text-align: center; margin: 30px 0;">
-              <a href="${resetLink}" style="background-color: #ccd88f; color: #311807; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block;">Reset Password</a>
-            </p>
-            <p>This link will expire in 1 hour.</p>
-            <p>If you did not request this, please ignore this email.</p>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
-            <p style="font-size: 12px; color: #777;">Best regards,<br/>The Anne Creations Team</p>
-          </div>
-        `,
-        data: { firstName: customer.firstName }
-      });
-    } catch (error) {
-      console.error('Forgot password email failed:', error);
-      throw new InternalServerErrorException('Failed to send reset email');
+    if (customer.email) {
+      try {
+        await sendEmail({
+          to: customer.email,
+          subject: 'Reset Your Anne Creations Password',
+          template: `
+            <div style="font-family: Arial, sans-serif; color: #311807; max-width: 600px; margin: 0 auto; border: 1px solid #ccd88f; padding: 20px; border-radius: 10px;">
+              <h2 style="color: #ccd88f; text-align: center;">Password Reset Request</h2>
+              <p>Hello ${customer.firstName || 'Customer'},</p>
+              <p>We received a request to reset your password for your Anne Creations account.</p>
+              <p style="text-align: center; margin: 30px 0;">
+                <a href="${resetLink}" style="background-color: #ccd88f; color: #311807; padding: 12px 25px; text-decoration: none; font-weight: bold; border-radius: 5px; display: inline-block;">Reset Password</a>
+              </p>
+              <p>This link will expire in 1 hour.</p>
+              <p>If you did not request this, please ignore this email.</p>
+              <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;" />
+              <p style="font-size: 12px; color: #777;">Best regards,<br/>The Anne Creations Team</p>
+            </div>
+          `,
+          data: { firstName: customer.firstName }
+        });
+      } catch (error) {
+        console.error('Forgot password email send error (non-fatal):', error?.message || error);
+      }
     }
 
     return { success: true, message: 'If account exists, reset instructions will be sent' };
