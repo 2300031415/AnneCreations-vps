@@ -35,8 +35,9 @@ export class DownloadsService {
     if ((order as any).expiryDate) {
       expiryDate = new Date((order as any).expiryDate);
     } else if (orderDate <= cutoffDate) {
-      // For past orders created up to 21-04-2026: Grant 3 extra days from today for downloads
-      expiryDate = new Date(Date.now() + 3 * 24 * 60 * 60 * 1000);
+      // For past orders created up to 21-04-2026: Grant 3 extra months from today for downloads
+      expiryDate = new Date();
+      expiryDate.setMonth(expiryDate.getMonth() + 3);
     } else {
       // For orders created after 21-04-2026 & new daily customers: Default 3 months limit
       expiryDate = new Date(orderDate);
