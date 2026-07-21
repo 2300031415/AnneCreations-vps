@@ -620,9 +620,9 @@ export function OrdersList() {
                   <TableRow key={order._id} className="hover:bg-gray-50">
                     <TableCell className="font-medium text-gray-900">{order.orderNumber}</TableCell>
                     <TableCell>
-                      {order.products.map((p) => (
-                        <div key={`${order._id}-${p?.product?._id}`}>
-                          {p?.product?.description}
+                      {order.products?.map((p, idx) => (
+                        <div key={`${order._id}-${p?.product?._id || idx}`} className="font-medium text-gray-900">
+                          {p?.product?.productModel || p?.product?.sku || p?.product?.name || 'N/A'}
                         </div>
                       ))}
                     </TableCell>
