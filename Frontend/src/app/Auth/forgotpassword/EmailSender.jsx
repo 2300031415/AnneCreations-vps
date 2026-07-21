@@ -60,19 +60,13 @@ const MobileSender = () => {
 
     try {
       const response = await forgotPassword(mobile.trim());
-      if (response.success) {
-        setSent(true);
-        setError(false);
-        setApiError('');
-      } else {
-        setError(true);
-        setSent(false);
-        setApiError(response.error || 'Something went wrong');
-      }
+      setSent(true);
+      setError(false);
+      setApiError('');
     } catch (err) {
-      setError(true);
-      setSent(false);
-      setApiError(err?.message || 'Something went wrong');
+      setSent(true);
+      setError(false);
+      setApiError('');
     } finally {
       setLoading(false);
     }
